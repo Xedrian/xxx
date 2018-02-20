@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- English v0.01	9th February 2016 alexalsp -->
+
+<language>
+	<page id="360003" title="StationProductionManager" descr="Texts for Station production manager." voice="no">
+		<t id="1">Ограничение производства</t>
+		<t id="10">Цыкл</t>
+		<t id="20">Настройка</t>
+		<t id="30">Глобальное</t>
+		<t id="40">Уровень отладки</t>
+		<t id="50">Активировать настройки отладки</t>
+		<t id="70">Записать лимит производства всех станций в</t>
+		<t id="90">Без ограничений</t>
+		<t id="100">Производство уменьшено на</t>
+	</page>
+</language>

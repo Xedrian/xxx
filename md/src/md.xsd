@@ -1,0 +1,2526 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <!-- ===== Text simple types ===== -->
+
+  <xs:simpleType name="cuename">
+    <xs:annotation>
+      <xs:documentation>
+        Cue name
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="expression" />
+  </xs:simpleType>
+
+  <!-- ===== Enumeration simple types ===== -->
+
+  <xs:simpleType name="missiontypelookup">
+    <xs:annotation>
+      <xs:documentation>
+        Mission type
+      </xs:documentation>
+    </xs:annotation>
+    <xs:union memberTypes="expression">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="missiontype.plot" />
+          <xs:enumeration value="missiontype.trade" />
+          <xs:enumeration value="missiontype.fight" />
+          <xs:enumeration value="missiontype.build" />
+          <xs:enumeration value="missiontype.think" />
+          <xs:enumeration value="missiontype.station" />
+          <xs:enumeration value="missiontype.chain" />
+          <xs:enumeration value="missiontype.other" />
+          <xs:enumeration value="missiontype.board" />
+          <xs:enumeration value="missiontype.build_ship" />
+          <xs:enumeration value="missiontype.build_station" />
+          <xs:enumeration value="missiontype.buy" />
+          <xs:enumeration value="missiontype.collect" />
+          <xs:enumeration value="missiontype.deliver" />
+          <xs:enumeration value="missiontype.destroy" />
+          <xs:enumeration value="missiontype.dockat" />
+          <xs:enumeration value="missiontype.drop" />
+          <xs:enumeration value="missiontype.escort" />
+          <xs:enumeration value="missiontype.explore" />
+          <xs:enumeration value="missiontype.extend" />
+          <xs:enumeration value="missiontype.find" />
+          <xs:enumeration value="missiontype.flyto" />
+          <xs:enumeration value="missiontype.follow" />
+          <xs:enumeration value="missiontype.guidance" />
+          <xs:enumeration value="missiontype.hack" />
+          <xs:enumeration value="missiontype.kill" />
+          <xs:enumeration value="missiontype.patrol" />
+          <xs:enumeration value="missiontype.pickup" />
+          <xs:enumeration value="missiontype.protect" />
+          <xs:enumeration value="missiontype.race" />
+          <xs:enumeration value="missiontype.repair" />
+          <xs:enumeration value="missiontype.restock" />
+          <xs:enumeration value="missiontype.scan" />
+          <xs:enumeration value="missiontype.sell" />
+          <xs:enumeration value="missiontype.talkto" />
+          <xs:enumeration value="missiontype.transport" />
+          <xs:enumeration value="missiontype.hazardousmaterials" />
+          <xs:enumeration value="missiontype.intelligence" />
+          <xs:enumeration value="missiontype.intoxicants" />
+          <xs:enumeration value="missiontype.military" />
+          <xs:enumeration value="missiontype.pharmaceuticals" />
+          <xs:enumeration value="missiontype.police" />
+          <xs:enumeration value="missiontype.protectedspecies" />
+          <xs:enumeration value="missiontype.upkeep_extend" />
+          <xs:enumeration value="missiontype.upkeep_hirenpc" />
+          <xs:enumeration value="missiontype.upkeep_credits" />
+          <xs:enumeration value="missiontype.upkeep_subordinates" />
+          <xs:enumeration value="missiontype.upkeep_units" />
+          <xs:enumeration value="missiontype.tutorial" />
+          <xs:enumeration value="missiontype.completed_tutorial" />
+          <xs:enumeration value="missiontype.hints" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:simpleType name="objectivetypelookup">
+    <xs:annotation>
+      <xs:documentation>
+        Objective action type
+      </xs:documentation>
+    </xs:annotation>
+    <xs:union memberTypes="expression">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="objective.custom">
+            <xs:annotation>
+              <xs:documentation>
+                Custom objective action, requires attributes customaction and customicon
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.none">
+            <xs:annotation>
+              <xs:documentation>
+                No objective
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.acquire_crew">
+            <xs:annotation>
+              <xs:documentation>
+                Acquire crew
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.acquire_units">
+            <xs:annotation>
+              <xs:documentation>
+                Acquire units
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.assign_subordinate">
+            <xs:annotation>
+              <xs:documentation>
+                Assign subordinate
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.board">
+            <xs:annotation>
+              <xs:documentation>
+                Board object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.build_ship">
+            <xs:annotation>
+              <xs:documentation>
+                Build ship
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.build_station">
+            <xs:annotation>
+              <xs:documentation>
+                Build station
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.buy">
+            <xs:annotation>
+              <xs:documentation>
+                Buy ware
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.collect">
+            <xs:annotation>
+              <xs:documentation>
+                Collect
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.defend">
+            <xs:annotation>
+              <xs:documentation>
+                Defend
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.deliver">
+            <xs:annotation>
+              <xs:documentation>
+                Deliver ware
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.destroy">
+            <xs:annotation>
+              <xs:documentation>
+                Destroy object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.dockat">
+            <xs:annotation>
+              <xs:documentation>
+                Dock at object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.drop">
+            <xs:annotation>
+              <xs:documentation>
+                Drop
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.escort">
+            <xs:annotation>
+              <xs:documentation>
+                Escort
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.explore">
+            <xs:annotation>
+              <xs:documentation>
+                Explore
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.find">
+            <xs:annotation>
+              <xs:documentation>
+                Find object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.flyto">
+            <xs:annotation>
+              <xs:documentation>
+                Fly to location or object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.follow">
+            <xs:annotation>
+              <xs:documentation>
+                Follow object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.hack">
+            <xs:annotation>
+              <xs:documentation>
+                Hack an object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.kill">
+            <xs:annotation>
+              <xs:documentation>
+                Kill actor
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.patrol">
+            <xs:annotation>
+              <xs:documentation>
+                Patrol
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.pickup">
+            <xs:annotation>
+              <xs:documentation>
+                Pick up object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.pickup_person">
+            <xs:annotation>
+              <xs:documentation>
+                Pick up a person
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.police_scan">
+            <xs:annotation>
+              <xs:documentation>
+                Police scan
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.protect">
+            <xs:annotation>
+              <xs:documentation>
+                Protect object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.race">
+            <xs:annotation>
+              <xs:documentation>
+                Race
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.repair">
+            <xs:annotation>
+              <xs:documentation>
+                Repair
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.restock">
+            <xs:annotation>
+              <xs:documentation>
+                Restock
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.sabotage">
+            <xs:annotation>
+              <xs:documentation>
+                Sabotage an object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.scan">
+            <xs:annotation>
+              <xs:documentation>
+                Scan an object
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.sell">
+            <xs:annotation>
+              <xs:documentation>
+                Sell ware
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.smuggle">
+            <xs:annotation>
+              <xs:documentation>
+                Smuggle an item
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.talkto">
+            <xs:annotation>
+              <xs:documentation>
+                Talk to actor
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.transport">
+            <xs:annotation>
+              <xs:documentation>
+                Transport
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.undock">
+            <xs:annotation>
+              <xs:documentation>
+                Return to your ship and undock
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.unlock">
+            <xs:annotation>
+              <xs:documentation>
+                Unlock an object or location
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.upgrade">
+            <xs:annotation>
+              <xs:documentation>
+                Upgrade
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="objective.wait">
+            <xs:annotation>
+              <xs:documentation>
+                Wait
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:simpleType name="namespacelookup">
+    <xs:annotation>
+      <xs:documentation>
+        Which cue is used as namespace?
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="this">
+        <xs:annotation>
+          <xs:documentation>
+            Use &quot;this&quot; cue as namespace, even for instances: $foo == this.$foo
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="static">
+        <xs:annotation>
+          <xs:documentation>
+            Same as &quot;this&quot;, but when instantiated, use the static cue: $foo == static.$foo
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="default">
+        <xs:annotation>
+          <xs:documentation>
+            By default the namespace is inherited from the parent cue. The default for root cues is same as &quot;static&quot;.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="todopriority">
+    <xs:annotation>
+      <xs:documentation>
+        Priority of "todo" item
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="trivial">
+        <xs:annotation>
+          <xs:documentation>
+            Trivial (nice to have)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="low">
+        <xs:annotation>
+          <xs:documentation>
+            Low priority
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="medium">
+        <xs:annotation>
+          <xs:documentation>
+            Medium priority
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="high">
+        <xs:annotation>
+          <xs:documentation>
+            High priority
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="critical">
+        <xs:annotation>
+          <xs:documentation>
+            Critical (game cannot ship without)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="onfaillookup">
+    <xs:annotation>
+      <xs:documentation>
+        Action when cue conditions fail (optional)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cancel">
+        <xs:annotation>
+          <xs:documentation>
+            Cancel the cue when conditions fail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="complete">
+        <xs:annotation>
+          <xs:documentation>
+            Complete the cue when conditions fail
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="cuestatelookup">
+    <xs:annotation>
+      <xs:documentation>
+        Cue state
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cuestate.disabled">
+        <xs:annotation>
+          <xs:documentation>
+            Disabled (no condition checks)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cuestate.waiting">
+        <xs:annotation>
+          <xs:documentation>
+            Waiting (checking conditions)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cuestate.active">
+        <xs:annotation>
+          <xs:documentation>
+            Active (running actions)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cuestate.complete">
+        <xs:annotation>
+          <xs:documentation>
+            Complete (finished running actions)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cuestate.cancelled">
+        <xs:annotation>
+          <xs:documentation>
+            Cancelled
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ===== Attribute groups ==== -->
+
+  <xs:attributeGroup name="objective">
+    <xs:attribute name="object" type="object" />
+    <xs:attribute name="slot" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Component slot or list of component slots as objective targets (cannot be used in combination with any of the attributes object or group)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="group" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Group of objective targets (cannot be used in combination with any of the attributes object or slot)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="offset" type="offset" />
+    <xs:attribute name="silent" type="booleanexpression">
+      <xs:annotation>
+        <xs:documentation>
+          Change the objective silently? Default is false
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="action" type="objectivetypelookup" use="required" />
+    <xs:attribute name="customaction" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Custom action text, required if action=&quot;custom&quot;
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="customicon" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Custom icon name, required if action=&quot;custom&quot;
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="text" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Objective detail text
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="endtime" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Objective endtime
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="checkunknown" type="booleanexpression">
+      <xs:annotation>
+        <xs:documentation>
+          Should the target name be shown as unknown if the target is unknown? Default is false.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="step" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Briefing step (either as part of the briefing definition, or as reference to it when setting the objective)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="missiondetails">
+    <xs:attribute name="name" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Mission name (required if mission or mission offer is created from scratch)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="description" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Mission description
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="faction" type="factionlookup">
+      <xs:annotation>
+        <xs:documentation>
+          Faction that offers the mission (required if mission or mission offer is created from scratch)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="opposingfaction" type="factionlookup">
+      <xs:annotation>
+        <xs:documentation>
+          Opposition faction to be encountered during the mission
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="licence" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Licence required to accept the mission (licence faction must match 'faction')
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" type="missiontypelookup">
+      <xs:annotation>
+        <xs:documentation>
+          (required if mission or mission offer is created from scratch)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="difficulty" type="levellookup" />
+    <xs:attribute name="reward" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Money reward
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="rewardtext" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Arbitrary reward text (takes precedence if both money and text rewards are specified)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="abortable" type="booleanexpression">
+      <xs:annotation>
+        <xs:documentation>
+          Is this mission abortable? (Only used for missions, has no effect on mission offers)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="associated" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Object that is associated with this mission (e.g. an NPC)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <!-- ===== Complex types ==== -->
+
+  <xs:complexType name="cuedoc">
+    <xs:sequence>
+      <xs:element name="content" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:attribute name="reference" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>
+                Cue reference
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>
+                Cue name
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="version" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:attribute name="number" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>
+                Internal version number
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="date" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>
+                Date of current version
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="status" type="versionstatus">
+            <xs:annotation>
+              <xs:documentation>
+                Status of current version
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="history" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="change" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attribute name="author" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Author name
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="date" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Date of change
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Change description
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="todo" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attribute name="author" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Author name
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="date" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Date of change
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Description of change
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="priority" type="todopriority">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Priority of change
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="objectiveprogress">
+    <xs:annotation>
+      <xs:documentation>
+        Objective progress data for progress bar display
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="text" type="expression" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Progress display text string
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="max" type="expression" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Max progress count (rounded to an integer)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="progress" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Current progress count (rounded to an integer, default is 0 if not supplied)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="persistent" type="booleanexpression">
+      <xs:annotation>
+        <xs:documentation>
+          Should the objective and the progress bar stay on screen the whole time? This allows for frequent use of &lt;update_objective_progress&gt; without triggering the highlighting animation of the objective bar. Default is false.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <xs:complexType name="objective">
+    <xs:annotation>
+      <xs:documentation>
+        Mission objective
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="progress" type="objectiveprogress" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attributeGroup ref="objective" />
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <!-- ===== Groups ==== -->
+
+  <xs:group name="missiondetails">
+    <xs:sequence>
+      <xs:element name="briefing">
+        <xs:annotation>
+          <xs:documentation>
+            Definition of briefing steps
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="objective" type="objective" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+          <xs:attribute name="replace" type="boolean">
+            <xs:annotation>
+              <xs:documentation>
+                Replace briefing steps, i.e. discard all existing steps? This is supported for &lt;update_offer&gt;, &gt;create_mission&gt; (with attribute offercue) and &lt;update_mission&gt;. Default is false.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="comment" type="comment" />
+        </xs:complexType>
+        <xs:key name="briefing_objective_step">
+          <xs:selector xpath="objective" />
+          <xs:field xpath="@step" />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ===== Conditions ==== -->
+
+  <xs:group name="specificconditions_event">
+    <xs:choice>
+
+      <xs:element name="event_briefing_started">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a briefing is started for a mission or mission offer (object = cue, param = list of rendertarget names)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_briefing_cancelled">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a briefing is cancelled (object = cue)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_cue_activated">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a cue is activated (object = cue)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_cue_cancelled">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a cue is cancelled (object = cue)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_cue_completed">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a cue is completed (object = cue)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_cue_signalled">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a cue is signalled (object = cue). Default is this cue if no cue is specified. (param = Script parameter passed from &lt;signal_cue_instantly&gt;)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_guidance_disabled">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when mission guidance is disabled for a mission (object = mission cue). NOTE: Under normal circumstances, this event should not have an effect on a mission.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_guidance_enabled">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when mission guidance is enabled for a mission (object = cue). NOTE: Under normal circumstances, this event should not have an effect on a mission.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_mission_aborted">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a mission is aborted by the player (object = cue)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_offer_accepted">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a cue offer is accepted (object = cue)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_platform_actor_created">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a character is created on a platform by platform population system, or manually by &lt;create_platform_actor&gt; (param = actor, param2 = entity type, param3 = true iff actor is a representative)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="actor" type="actor" />
+          <xs:attribute name="type" type="entitytypeexprlookup" />
+          <xs:attribute name="representative" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Is actor a representative?
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_player_drone_scan_triggered">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a drone scan has been triggered by the game (param = target object, param2 = target build sequence - none == empty string, param3 = target build stage)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_player_drone_hack_triggered">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a drone hack has been triggered by the game (param = target object, param2 = target build sequence - none == empty string, param3 = target build stage)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_boarding_triggered">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a marine commander starts a boarding operation (param = commander, param2 = target to be boarded, param3 = boarder faction)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="boarder" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The marine commander that controls the boarding operation
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="target" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The target object to be boarded
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="faction" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The boarder faction, which is trying to take ownership of the target
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="event_boarding_support_requested">
+        <xs:annotation>
+          <xs:documentation>
+            Event for when a boarding commander requests support by the player (param = commander, param2 = object being boarded, param3 = forced mission (0 should mean no forced mission))
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="eventcondition" />
+          <xs:attribute name="boarder" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The platform commander requesting support
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="boarded" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The object being boarded by the commander requesting support
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="specificconditions_nonevent">
+    <xs:choice>
+
+      <xs:element name="cue_is_active">
+        <xs:annotation>
+          <xs:documentation>
+            Cue is in active state
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="noneventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="cue_is_cancelled">
+        <xs:annotation>
+          <xs:documentation>
+            Cue is in cancelled state
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="noneventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="cue_is_complete">
+        <xs:annotation>
+          <xs:documentation>
+            Cue is in complete state
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="noneventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="cue_is_disabled">
+        <xs:annotation>
+          <xs:documentation>
+            Cue is in disabled state
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="noneventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="cue_is_waiting">
+        <xs:annotation>
+          <xs:documentation>
+            Cue is in waiting state
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="noneventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="guidance_is_active">
+        <xs:annotation>
+          <xs:documentation>
+            Mission guidance is active for the mission cue. NOTE: Under normal circumstances, this information should not have an effect on a mission.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="noneventcondition" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+    </xs:choice>
+  </xs:group>
+
+  <!--
+  XML restriction: Elements with the same name and in the same scope must have the same type.
+  Which means that check_all / check_any always have to behave the same, even if we know whether
+  they are allowed to have event conditions or not. So we always allow them.
+  -->
+
+  <xs:group name="conditions_single_nonevent">
+    <xs:choice>
+      <xs:group ref="commonconditions_nonevent" />
+      <xs:group ref="specificconditions_nonevent" />
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="conditions_single_event">
+    <xs:choice>
+      <xs:group ref="commonconditions_event" />
+      <xs:group ref="specificconditions_event" />
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="conditions">
+    <xs:sequence>
+      <xs:group ref="conditions_single_event" minOccurs="0" maxOccurs="1"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="check_all" type="checkall"/>
+        <xs:element name="check_any" type="checkany"/>
+        <xs:group ref="conditions_single_nonevent"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:complexType name="checkall">
+    <xs:annotation>
+      <xs:documentation>
+        List of conditions all of which must be met
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="conditions"/>
+    <xs:attributeGroup ref="condition" />
+    <xs:attributeGroup ref="counting" />
+    <xs:attribute name="negate" type="negatecondition" />
+  </xs:complexType>
+
+  <xs:complexType name="checkany">
+    <xs:annotation>
+      <xs:documentation>
+        List of conditions any one of which must be met
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="check_all" type="checkall"/>
+        <xs:element name="check_any" type="checkany"/>
+        <xs:group ref="conditions_single_event"/>
+        <xs:group ref="conditions_single_nonevent"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attributeGroup ref="condition" />
+    <xs:attributeGroup ref="counting" />
+    <xs:attribute name="negate" type="negatecondition" />
+  </xs:complexType>
+
+  <!-- ===== Actions ==== -->
+
+  <xs:group name="specificactions">
+    <xs:choice>
+
+      <xs:element name="quit_gameover">
+        <xs:annotation>
+          <xs:documentation>
+            Show Game-over menu
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="quit_to_desktop">
+        <xs:annotation>
+          <xs:documentation>
+            Quit to desktop
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="quit_to_startmenu">
+        <xs:annotation>
+          <xs:documentation>
+            Quit to startmenu
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="capture_movie_start">
+        <xs:annotation>
+          <xs:documentation>
+            Start capturing a movie (to stop capture, see capture_movie_stop)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+    <xs:element name="capture_movie_stop">
+        <xs:annotation>
+          <xs:documentation>
+            Stop capturing a movie
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="capture_screen">
+        <xs:annotation>
+          <xs:documentation>
+            Make a screenshot (optional in a subdirectory)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="directory" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Sub-folder of the personal screenshot folder where the screenshot will be stored (optional)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+
+      <xs:element name="activate_mission">
+        <xs:annotation>
+          <xs:documentation>
+            Activate an existing mission associated with a cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="cancel_cue">
+        <xs:annotation>
+          <xs:documentation>
+            Cancel cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="complete_cue">
+        <xs:annotation>
+          <xs:documentation>
+            Complete cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_cue_actor">
+        <xs:annotation>
+          <xs:documentation>
+            Create an actor object and associate it with this cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:group ref="createnpc" />
+          </xs:sequence>
+          <xs:attributeGroup ref="action" />
+          <xs:attributeGroup ref="createnpc" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="name" type="lvaluename" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_mission">
+        <xs:annotation>
+          <xs:documentation>
+            Create a mission and associate it with this cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:group ref="missiondetails" minOccurs="0" maxOccurs="1" />
+            <xs:element name="objective" type="objective" minOccurs="0" maxOccurs="1" />
+          </xs:sequence>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="offercue" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Cue associated with a mission offer, whose properties will be copied to the mission. The other mission parameters are optional if offercue is supplied.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="endtime" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Endtime of the mission
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="activate" type="booleanexpression">
+            <xs:annotation>
+              <xs:documentation>
+                Should mission become active if there is already another mission? Default is true. (Setting to false also prevents the mission being activated automatically when another mission gets deactivated.)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attributeGroup ref="missiondetails" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="accept_offer">
+        <xs:annotation>
+          <xs:documentation>
+            Create the accept event for the mission offer cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_offer">
+        <xs:annotation>
+          <xs:documentation>
+            Create a mission offer and associate it with this cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:group ref="missiondetails" minOccurs="0" maxOccurs="1" />
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="actor" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The actor making the mission offer, used to start the briefing conversation
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="location" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The offer location component slot (if not supplied then the mission offer has no visible location)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="duration" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Duration of the mission
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="hidden" type="booleanexpression">
+            <xs:annotation>
+              <xs:documentation>
+                Is the offer hidden from the BBS? If true, the mission offer can only be found via the offer location.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="space" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Space location the player must be in for the mission to appear in the BBS (unless hidden for another reason)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attributeGroup ref="missiondetails" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_platform_actor">
+        <xs:annotation>
+          <xs:documentation>
+            Create an actor object on a platform manually and fire the corresponding &lt;event_platform_actor_created&gt; event.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:group ref="createnpc" />
+          </xs:sequence>
+          <xs:attributeGroup ref="action" />
+          <xs:attributeGroup ref="createnpc" />
+          <xs:attribute name="dockingbay" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                The platform (docking bay) on which the actor should be created
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="type" type="entitytypeexprlookup" use="required" />
+          <xs:attribute name="name" type="lvaluename" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_presentation_cluster">
+        <xs:annotation>
+          <xs:documentation>
+            Create a presentation cluster for use by cutscene system (must be destroyed after use)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action"/>
+          <xs:attribute name="name" type="lvaluename" use="required"/>
+          <xs:attribute name="background" type="macro"/>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_representative_actor">
+        <xs:annotation>
+          <xs:documentation>
+            Create an faction representative actor on a random landing platform in the given sector, and fire the corresponding &lt;event_platform_actor_created&gt; event.
+            If a representative already exists for this sector, no actor will be created; the result will be the existing actor.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="sector" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Sector where the faction representative should be created
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="faction" type="factionlookup" use="required" />
+          <xs:attribute name="type" type="entitytypeexprlookup" use="required" />
+          <xs:attribute name="name" type="lvaluename" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="create_target_points">
+        <xs:annotation>
+          <xs:documentation>
+            Create target points and associate them with a mission cue. NOTE: This only works if the mission is currently active, and it will remove previously existing target points of other missions.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Mission cue which will be associated with the target points
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="object" type="object" use="required" />
+          <xs:attribute name="tags" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Either a single tag or a list of tags which are required for the target points
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="groupname" type="groupname" />
+          <xs:attribute name="sequence" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Sequence identifier string
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="stage" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Sequence stage
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="type" type="targetpointtypelookup" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="find_mission_offer_location">
+        <xs:annotation>
+          <xs:documentation>
+            Find a mission offer location on a container
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="name" type="lvaluename" use="required" />
+          <xs:attribute name="multiple" type="findmultiple" />
+          <xs:attribute name="required" type="findrequired" />
+          <xs:attribute name="container" type="container" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="force_cue">
+        <xs:annotation>
+          <xs:documentation>
+            Force cue (not for general use)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="include_actions">
+        <xs:annotation>
+          <xs:documentation>
+            Perform actions of the referenced library in the context of this cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="ref" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Library cue name
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="populate_platforms">
+        <xs:annotation>
+          <xs:documentation>
+            Create characters on platforms in the player zone, based on character quotas
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="remove_all_cue_actors">
+        <xs:annotation>
+          <xs:documentation>
+            Remove all associations of actor NPCs with this cue (the actors will be removed unless referenced outside the MD)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="remove_cue_actor">
+        <xs:annotation>
+          <xs:documentation>
+            Remove association of cue actor with this cue (the actor will be removed unless referenced outside the MD)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="actor">
+            <xs:annotation>
+              <xs:documentation>
+                Actor NPC to be removed from the cue. If not supplied, the last created actor will be removed.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="remove_mission">
+        <xs:annotation>
+          <xs:documentation>
+            Remove the mission associated with this cue, if there is one
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="type">
+            <xs:annotation>
+              <xs:documentation>
+                Optional indication of why the mission was removed. This can cause additional actions such as displaying a message.
+              </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="aborted">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Mission aborted
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="completed">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Mission completed successfully
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="tutorialcompleted">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Tutorial completed successfully
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="failed">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Mission failed
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="remove_offer">
+        <xs:annotation>
+          <xs:documentation>
+            Remove the mission offer associated with this cue, if there is one
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="remove_target_points">
+        <xs:annotation>
+          <xs:documentation>
+            Remove target points that are associated with the mission cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Mission cue which is associated with the target points
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="reset_cue">
+        <xs:annotation>
+          <xs:documentation>
+            Reset cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="add_holomap">
+        <xs:annotation>
+          <xs:documentation>
+            Add a holomap to a rendertarget
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="name" type="lvaluename" use="required" />
+          <xs:attribute name="rendertarget" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Name of render target on which the cutscene should be played (ignored for event monitor cutscenes)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="remove_holomap">
+        <xs:annotation>
+          <xs:documentation>
+            Remove a holomap
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_holomap_target">
+        <xs:annotation>
+          <xs:documentation>
+            Set the target of the holo map. If necessary, the map will zoom in or out, using the target's parent component as the displayed space. Please make sure that you only go up or down one level of the hierarchy - it will still work if you don't, but might not look as good. This only works if the map is active!
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="holomap" type="holomap" use="required" />
+          <xs:attribute name="object" type="object" use="required" />
+          <xs:attribute name="zoomtime" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The time the map should take to zoom in/out if necessary. If not provided, the map will use the default time from parameters.xml
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="pantime" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                The time the map should take to pan to the new target if necessary. If not provided, the map will use the default time from parameters.xml (Note: this time should be shorter than the zoom time for better visuals)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="showunknown" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Whether the map should also display items and spaces the player hasn't visited yet
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_job_active">
+        <xs:annotation>
+          <xs:documentation>
+            Activate or deactivate a job
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="job" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Job ID string
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="activate" type="booleanexpression">
+            <xs:annotation>
+              <xs:documentation>
+                Activate job? (default is true)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_mission_actor">
+        <xs:annotation>
+          <xs:documentation>
+            Flag an actor as being a mission actor (or remove the flag)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="actor" type="actor" use="required" />
+          <xs:attribute name="missionactor" type="booleanexpression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                True if the mission actor flag should be set, false otherwise
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_remote_commable">
+        <xs:annotation>
+          <xs:documentation>
+            Flag an actor as being remotely commable (or remove the flag) [default is true]
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="actor" type="actor" use="required" />
+          <xs:attribute name="remote" type="booleanexpression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                True if the actor flag should be set, false otherwise
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_objective">
+        <xs:annotation>
+          <xs:documentation>
+            Set an objective for the cue's mission (see &lt;create_mission&gt;)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="progress" type="objectiveprogress" minOccurs="0" maxOccurs="1" />
+          </xs:sequence>
+          <xs:attributeGroup ref="action" />
+          <xs:attributeGroup ref="objective" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_presentation_cluster_persistence">
+        <xs:annotation>
+          <xs:documentation>
+            Set the persistence of dynamically created presentation clusters. Whether they should be exported to a savegame or not.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cluster" type="object" use="required" />
+          <xs:attribute name="persistent" type="booleanexpression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Is the cluster persistent
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="set_playership_systems">
+        <xs:annotation>
+          <xs:documentation>
+            Set whether the player ship systems are considered online or not (does not affect the ship itself but is used by other systems querying the playership state - used for plot)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="enabled" type="booleanexpression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Are the player ship systems active
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="update_objective_progress">
+        <xs:annotation>
+          <xs:documentation>
+            Update progress count of the objective for the cue's mission. The progress data must already have been set up by &lt;set_objective&gt;.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="progress" type="expression" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                Current progress count (rounded to an integer)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="max" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Max progress count (rounded to an integer, remains unchanged if not supplied)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="update_mission">
+        <xs:annotation>
+          <xs:documentation>
+            Update metadata and briefing of an existing mission associated with a cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:group ref="missiondetails" minOccurs="0" maxOccurs="1" />
+          </xs:sequence>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="endtime" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Endtime of the objective
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attributeGroup ref="missiondetails" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="update_objective_endtime">
+        <xs:annotation>
+          <xs:documentation>
+            Update the current objective endtime
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="endtime" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Endtime of the objective
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="update_offer">
+        <xs:annotation>
+          <xs:documentation>
+            Update metadata and briefing of an existing mission offer associated with a cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:group ref="missiondetails" minOccurs="0" maxOccurs="1" />
+          </xs:sequence>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="duration" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Duration of the mission
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attributeGroup ref="missiondetails" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="enter_playership">
+        <xs:annotation>
+          <xs:documentation>
+            Enter the playership
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="leave_cockpit">
+        <xs:annotation>
+          <xs:documentation>
+            Leave the playership cockpit
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="stop_remote_control">
+        <xs:annotation>
+          <xs:documentation>
+            Stop player remote control
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="force_player_speed">
+        <xs:annotation>
+          <xs:documentation>
+            Set speed of the players currently controlled ship, including drones and remote missiles (aborts boost)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="speed" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Throttle value (defaults to 0) (-1 for full reverse, 0 for stop and 1 for full forward)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="signal_cue">
+        <xs:annotation>
+          <xs:documentation>
+            Send a signal to a cue, triggering cues that wait for this signal via &lt;event_cue_signalled&gt;
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="check" type="boolean">
+            <xs:annotation>
+              <xs:documentation>
+                Check for existing cue listeners? If true and there are no listeners for the cue signal, a warning is produced. Default is true.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="signal_cue_instantly">
+        <xs:annotation>
+          <xs:documentation>
+            Signal a cue instantly, triggering cues that wait for this signal via &lt;event_cue_signalled&gt;. Can pass parameter to &lt;event_cue_signalled&gt;
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="action" />
+          <xs:attribute name="cue" type="cuename" use="required" />
+          <xs:attribute name="check" type="boolean">
+            <xs:annotation>
+              <xs:documentation>
+                Check for existing cue listeners? If true and there are no listeners for the cue signal, a warning is produced. Default is true.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="param" type="expression">
+            <xs:annotation>
+              <xs:documentation>
+                Script Parameter passed to &lt;event_cue_signalled&gt;
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="actions">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="do_all" type="doall" />
+        <xs:element name="do_any" type="doany" />
+        <xs:sequence>
+          <xs:element name="do_if" type="doif" />
+          <xs:element name="do_elseif" type="doelseif" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="do_else" type="doelse" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:element name="do_while" type="dowhile"/>
+        <xs:group ref="commonactions"/>
+        <xs:group ref="specificactions"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:complexType name="doall">
+    <xs:annotation>
+      <xs:documentation>
+        Actions in all sub-nodes will be performed.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="actions"/>
+    <xs:attributeGroup ref="action"/>
+    <xs:attributeGroup ref="counting"/>
+  </xs:complexType>
+
+  <xs:complexType name="doany">
+    <xs:annotation>
+      <xs:documentation>
+        A randomly selected sub-node action will be performed. The chances of selection can be specified by using weights on the actions.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="actions"/>
+    <xs:attributeGroup ref="action"/>
+  </xs:complexType>
+
+  <xs:complexType name="doif">
+    <xs:annotation>
+      <xs:documentation>
+        Actions in sub-nodes will be performed only if the value matches.
+        Can be followed by &lt;do_elseif&gt; and/or &lt;do_else&gt;.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="actions"/>
+    <xs:attributeGroup ref="action"/>
+    <xs:attributeGroup ref="conditionalaction"/>
+  </xs:complexType>
+
+  <xs:complexType name="doelseif">
+    <xs:annotation>
+      <xs:documentation>
+        Actions in sub-nodes will be performed only if the conditions in the previous nodes are not met and if this action's values matches.
+        Can be followed by &lt;do_elseif&gt; and/or &lt;do_else&gt;.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="actions"/>
+    <xs:attributeGroup ref="action"/>
+    <xs:attributeGroup ref="conditionalaction"/>
+  </xs:complexType>
+
+  <xs:complexType name="doelse">
+    <xs:annotation>
+      <xs:documentation>
+        Actions in sub-nodes will be performed only if the conditions in the previous nodes are not met.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="actions"/>
+    <xs:attributeGroup ref="action"/>
+  </xs:complexType>
+
+  <xs:complexType name="dowhile">
+    <xs:annotation>
+      <xs:documentation>
+        Actions in sub-nodes will be performed in a loop while the value matches.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="actions"/>
+    <xs:attributeGroup ref="action"/>
+    <xs:attributeGroup ref="conditionalaction"/>
+  </xs:complexType>
+
+  <!-- ===== Cue definition ==== -->
+
+  <xs:attributeGroup name="cue">
+    <xs:attribute name="name" type="scriptname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Cue name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="version" type="xs:nonNegativeInteger">
+      <xs:annotation>
+        <xs:documentation>
+          Cue version number
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="module" type="namestring">
+      <xs:annotation>
+        <xs:documentation>
+          Define the module name the cue should run in (cue runs in all by default)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="namespace" type="namespacelookup"/>
+    <xs:attribute name="instantiate" type="boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Create a new cue instance when activating?
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="checktime" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Minimum game time (player age) of first condition check, can be variable and is evaluated when cue is enabled (use only in combination with onfail or checkinterval)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="checkinterval" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Delay between condition checks, must be constant (do not use with cues containing event conditions)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="onfail" type="onfaillookup">
+      <xs:annotation>
+        <xs:documentation>
+          Action after first time condition is checked (do not use with cues containing event conditions)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="comment" type="comment" />
+  </xs:attributeGroup>
+
+  <xs:group name="cue">
+    <xs:sequence>
+      <xs:element name="conditions" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Cue conditions all of which must be met to activate the cue
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:group ref="conditions" />
+          <xs:attribute name="comment" type="comment" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="delay" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Range of delay time between activation and performing actions
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attributeGroup ref="random"/>
+          <xs:attribute name="comment" type="comment" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="actions" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Cue actions
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:group ref="actions" />
+          <xs:attribute name="comment" type="comment" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="force" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Cue force actions, which will be performed before the actual actions when forcing a cue for debugging
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:group ref="actions" />
+          <xs:attribute name="name" type="namestring">
+            <xs:annotation>
+              <xs:documentation>
+                Name of the force actions, used to provide a list of plot shortcuts for testing
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="comment" type="comment" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="patch" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Actions for patching a cue of an older version (will be performed when loading the MD script from a save).
+            Patches are applied to waiting, active, complete or cancelled cues (see state attribute).
+            This includes library users and instances, except for completed/cancelled instances that have already been deleted.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:group ref="actions" />
+          <xs:attribute name="sinceversion" use="required" type="xs:positiveInteger">
+            <xs:annotation>
+              <xs:documentation>
+                Cue version at which this patch element was added (it will only be applied when loading a cue of an older version)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="state">
+            <xs:annotation>
+              <xs:documentation>
+                Required state that this cue must be in for this patch to be applied (default is complete)
+              </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="complete">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Apply patch only if this cue is complete (default)
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="waiting">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Apply patch only if this cue is waiting (conditions are being checked)
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="active">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Apply patch only if this cue is active (not complete yet because of a delay)
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="cancelled">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Apply patch only if this cue is cancelled
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="comment" type="comment" />
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="cues" type="cues" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Sub-cues
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:complexType name="cue">
+    <xs:annotation>
+      <xs:documentation>
+        Cue
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="documentation" type="cuedoc" minOccurs="0" maxOccurs="1" />
+      <xs:choice>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="param">
+            <xs:annotation>
+              <xs:documentation>
+                Cue parameter (only used if cue is a reference)
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:attribute name="name" type="paramname" use="required">
+                <xs:annotation>
+                  <xs:documentation>
+                    Parameter name
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+              <xs:attribute name="value" type="expression" use="required">
+                <xs:annotation>
+                  <xs:documentation>
+                    Parameter value
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+              <xs:attribute name="comment" type="comment" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:group ref="cue" />
+      </xs:choice>
+    </xs:sequence>
+    <xs:attributeGroup ref="cue" />
+    <xs:attribute name="ref" type="expression">
+      <xs:annotation>
+        <xs:documentation>
+          Library cue name (all other cue data is ignored if this is present)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="library">
+    <xs:annotation>
+      <xs:documentation>
+        A library cue
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="documentation" type="cuedoc" minOccurs="0" maxOccurs="1" />
+      <xs:element name="params" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="param">
+              <xs:annotation>
+                <xs:documentation>
+                  Library parameter
+                </xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:attribute name="name" type="paramname" use="required">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Parameter name
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default" type="expression">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Default value (parameter is required if default value not supplied)
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="comment" type="comment" />
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:group ref="cue" />
+    </xs:sequence>
+    <xs:attributeGroup ref="cue" />
+  </xs:complexType>
+
+  <xs:complexType name="cues">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="cue" type="cue">
+        <xs:key name="cue_param_name">
+          <xs:selector xpath="param" />
+          <xs:field xpath="@name" />
+        </xs:key>
+      </xs:element>
+      <xs:element name="library" type="library">
+        <xs:key name="library_param_name">
+          <xs:selector xpath="params/param" />
+          <xs:field xpath="@name" />
+        </xs:key>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- ===== Root element ==== -->
+
+  <xs:element name="mdscript">
+    <xs:annotation>
+      <xs:documentation>
+        Mission Director script root element
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="documentation" type="filedoc" minOccurs="0" maxOccurs="1" />
+        <xs:element name="cues" type="cues" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>
+              Cues
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="signature" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>
+              Signature
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="scriptname" use="required" />
+      <xs:attribute name="comment" type="comment" />
+    </xs:complexType>
+    <xs:key name="cue_name">
+      <xs:selector xpath=".//cue | .//library" />
+      <xs:field xpath="@name" />
+    </xs:key>
+  </xs:element>
+
+</xs:schema>

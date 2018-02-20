@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+    <add sel="/aiscript/attention/actions/label[@name='checkforrepair']" pos="before">
+        <set_value name="$OOVNextWreckRestore" exact="0"/>
+    </add>
+
+    <add sel="/aiscript/attention/actions/do_if[@value='player.age le @this.$hacked']" pos="before">
+        <do_if value="this.defensible.isclass.station">
+            <set_value name="$hulldamagelimit" exact="100" comment="below what percentage hull is a component considered damaged"/>
+        </do_if>
+        <do_else>
+            <set_value name="$hulldamagelimit" exact="60 + (40 * this.skill.engineering / 5)" comment="below what percentage hull is a component considered damaged (ship engineer repairs up to a value between 60% and 100%, dependent on skill)"/>
+        </do_else>
+    </add>
+
+    <add sel="//do_if[@value='not $CurrentElement.exists and this.defensible.hullpercentage ge $hulldamagelimit']" pos="prepend">
+        <!-- We need to make sure the defensible is completely repaired before letting engineer to rest -->
+        <do_if value="this.defensible.summary.numadsigns.wreck
+          + this.defensible.summary.numefficiencyupgrades.wreck
+          + this.defensible.summary.numshields.wreck
+          + this.defensible.summary.numsurfacedestructible.wreck
+          + this.defensible.summary.numturrets.wreck" exact="0">
+
+            <!-- set command action to repair checking -->
+            <set_command_action commandaction="commandaction.repairchecking" />
+            <end_repair_mass_traffic object="this.defensible" />
+
+            <wait min="(6-this.skill.engineering)min" max="(10-this.skill.engineering)min" />
+        </do_if>
+        <do_else>
+            <set_command_action commandaction="commandaction.repairingto" param="this.defensible" />
+        </do_else>
+    </add>
+    <!-- Add chance=0 for vanilla wait command, because this make "out of view" engineers to slack off -->
+    <add sel="//do_if[@value='not $CurrentElement.exists and this.defensible.hullpercentage ge $hulldamagelimit']/wait" type="@chance">0</add>
+
+    <add sel="//do_if/do_if/do_if[@value='$CurrentElement.isfunctional']">
+        <!-- if not repair this element, check for another one right away -->
+        <set_value name="$nextelementcheck" exact="0" />
+    </add>
+
+    <replace sel="/aiscript/attention/actions/do_if[@value='player.age']">
+        <do_if value="player.age" min="$nextelementcheck">
+            <set_value name="$nextelementcheck" min="player.age + (60 - this.skill.engineering*8)s" max="player.age + (120 - this.skill.engineering*12)s"/>
+            <create_group groupname="$PossibleElements"/>
+            <set_value name="$FindChance" exact="100"/>
+
+            <!--If ship, find engines and jumpdrives - High priority-->
+            <do_if value="$Defensible.isclass.ship">
+                <find_object_component chance="$FindChance" groupname="$PossibleElements" object="$Defensible" class="[class.jumpdrive, class.engine]" checkoperational="false" multiple="true">
+                    <match_any>
+                        <match restorable="true" comment="wrecked"/>
+                        <match repairable="true" invulnerable="false"/>
+                    </match_any>
+                </find_object_component>
+            </do_if>
+            <!--find large, non surface element destructibles-->
+            <find_object_component chance="$FindChance" groupname="$PossibleElements" object="$Defensible" class="class.destructible" surfaceelement="false" checkoperational="false" multiple="true">
+                <match class="[class.adsign, class.ship]" checkoperational="false" negate="true"/>
+                <match_any>
+                    <match restorable="true" comment="wrecked"/>
+                    <match repairable="true" invulnerable="false"/>
+                </match_any>
+            </find_object_component>
+            <do_all exact="$PossibleElements.count" counter="$i" reverse="true">
+                <do_if value="$PossibleElements.{$i}.hullpercentage ge $hulldamagelimit">
+                    <remove_from_group group="$PossibleElements" object="$PossibleElements.{$i}" />
+                </do_if>
+            </do_all>
+            <debug_text text="$PossibleElements.count + ' priority things to repair found'" chance="$debugoutputchance2"/>
+            <do_all exact="$PossibleElements.count" counter="$Counter" chance="$debugoutputchance2">
+                <debug_text text="'Priority Destructible: ' + $PossibleElements.{$Counter} + ' ' + $PossibleElements.{$Counter}.macro.id"/>
+            </do_all>
+            <do_if value="$PossibleElements.count" min="1">
+                <!--If something important was found there is only a small chance of finding something small to fix instead-->
+                <!--TODO: Could be based on Engineer skill-->
+                <set_value name="$FindChance" exact="5"/>
+            </do_if>
+            <!--A chance to find something small to fix. (100% if nothing important was found)-->
+            <find_object_component chance="$FindChance" groupname="$PossibleElements" object="$Defensible" class="class.destructible" checkoperational="false" multiple="true">
+                <match class="class.ship" checkoperational="false" negate="true"/>
+                <match_any>
+                    <match restorable="true" comment="wrecked"/>
+                    <match repairable="true" invulnerable="false"/>
+                </match_any>
+            </find_object_component>
+            <do_all exact="$PossibleElements.count" counter="$i" reverse="true">
+                <do_if value="$PossibleElements.{$i}.hullpercentage ge $hulldamagelimit">
+                    <remove_from_group group="$PossibleElements" object="$PossibleElements.{$i}" />
+                </do_if>
+            </do_all>
+            <debug_text text="$PossibleElements.count + ' potential things to repair found'" chance="$debugoutputchance2"/>
+
+            <do_if value="$PossibleElements.count" min="1">
+                <set_value name="$MassTrafficTargets" exact="$PossibleElements.list"/>
+                <set_value name="$CurrentElement" exact="$PossibleElements.random"/>
+                <set_value name="$nextelementcheck" exact="0"/>
+                <do_if value="$CurrentElement.iswreck">
+                    <set_value name="$BaseRestoreTime" exact="($CurrentElement.size)s"/>
+                    <do_if value="$BaseRestoreTime" min="20min">
+                        <set_value name="$BaseRestoreTime" exact="20min" comment="cap time for large components"/>
+                    </do_if>
+                    <do_elseif value="$BaseRestoreTime" max="1min">
+                        <set_value name="$BaseRestoreTime" exact="1min" comment="cap time for small components"/>
+                    </do_elseif>
+                    <debug_text text="'BaseRestoreTime is ' + $BaseRestoreTime" chance="$debugoutputchance"/>
+                    <set_value name="$RestoreTime" min="player.age + $BaseRestoreTime" max="player.age + $BaseRestoreTime + 1s"/>
+                </do_if>
+                <do_else>
+                    <debug_text text="'CurrentElement is now the damaged ' + $CurrentElement + ' ' + $CurrentElement.knownname" chance="$debugoutputchance2"/>
+                </do_else>
+            </do_if>
+            <clear_group group="$PossibleElements"/>
+        </do_if>
+    </replace>
+
+    <replace sel="//do_if[@value='not @$networkid']/@value">not @$networkid and this.skill.engineering gt 0</replace>
+    <add sel="//do_if[@value='$repairratefactor == 0']" pos="before">
+        <do_if value="$repairratefactor == 0 and this.skill.engineering gt 0">
+            <do_if value="$Defensible.units.{unitcategory.welder}.count ge 1">
+                <set_value name="$repairratefactor" exact="$Defensible.units.{unitcategory.welder}.count" />
+            </do_if>
+        </do_if>
+    </add>
+    <replace sel="//set_value[@exact='$repairratefactor * this.combinedskill / 25']/@exact">$repairratefactor * this.skill.engineering</replace>
+
+    <!-- Repair out of view components: vanilla version do this too quickly -->
+    <replace sel="//do_if[@value='$Defensible.attention lt attention.visible']">
+        <do_if value="$Defensible.attention lt attention.visible">
+            <do_if value="player.age" min="@$OOVNextWreckRestore">
+                <set_value name="$OOVNextWreckRestore" exact="player.age + 30s + ((100 - this.combinedskill) / 5)s"/>
+                <do_if value="$Defensible.summary.numefficiencyupgrades.wreck" min="1">
+                    <set_summarised_efficiencyupgrade_state object="$Defensible" state="operational" parentstate="operational" previous="wreck" exact="1"/>
+                </do_if>
+                <do_elseif value="$Defensible.summary.numadsigns.wreck" min="1">
+                    <set_summarised_adsign_state object="$Defensible" state="operational" parentstate="operational" previous="wreck" exact="1"/>
+                </do_elseif>
+
+                <do_if value="$Defensible.summary.numshields.wreck" min="1">
+                    <set_summarised_shield_state object="$Defensible" state="operational" parentstate="operational" previous="wreck" exact="1"/>
+                </do_if>
+                <do_elseif value="$Defensible.summary.numturrets.wreck" min="1">
+                    <set_summarised_turret_state object="$Defensible" state="operational" parentstate="operational" previous="wreck" exact="1"/>
+                </do_elseif>
+
+                <do_if value="$Defensible.summary.numsurfacedestructible.wreck" min="1">
+                    <set_summarised_surfacedestructible_state object="$Defensible" state="operational" parentstate="operational" previous="wreck" exact="1"/>
+                </do_if>
+            </do_if>
+        </do_if>
+    </replace>
+
+    <replace sel="/aiscript/attention/actions/do_if/do_if/set_value[@name='$addedhullpercentage']/@exact">500f * $repairrate / $Defensible.maxhull</replace>
+    <replace sel="//do_if/do_if/do_if[@value='$addedhullpercentage lt 1']">
+        <do_if value="$addedhullpercentage lt 0.1">
+            <set_value name="$addedhullpercentage" exact="0.1"/>
+        </do_if>
+        <do_if value="$addedhullpercentage gt 10">
+            <set_value name="$addedhullpercentage" exact="10"/>
+        </do_if>
+    </replace>
+    <replace sel="//do_if/do_if/do_if[@value='$addedhullpercentage']">
+        <do_if value="$addedhullpercentage gt 0.0">
+            <!-- set the repair command action -->
+            <set_command_action commandaction="commandaction.repairingto" param="$Defensible" />
+            <!-- repair the hull -->
+            <set_object_hull object="$Defensible" exact="$Defensible.hullpercentage + $addedhullpercentage" />
+        </do_if>
+    </replace>
+
+    <add sel="/aiscript/attention/actions/do_if/do_if/do_if[@value='@$RestoreTime']" pos="prepend">
+        <set_command_action commandaction="commandaction.repairingto" param="$CurrentElement" />
+    </add>
+    <add sel="/aiscript/attention/actions/do_if/do_if[@value='$CurrentElement.iswreck']/do_else">
+        <do_if value="$Defensible.hullpercentage ge $hulldamagelimit">
+            <!-- check for another element right away, this to prevent engineer taking a break when ship hull is repaired -->
+            <set_value name="$nextelementcheck" exact="0" />
+        </do_if>
+    </add>
+
+    <replace sel="/aiscript/attention/actions/do_if/do_else/do_if/do_else/set_value[@name='$addedhullpercentage']/@exact">100f * $repairrate / $CurrentElement.maxhull</replace>
+</diff>

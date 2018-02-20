@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- German v0.01	9th February 2016 jth -->
+
+<language>
+	<page id="360003" title="StationProductionManager" descr="Texte für Station Produktionsleiter ." voice="no">
+		<t id="1">Produktionsbegrenzung</t>
+		<t id="10">Zyklus</t>
+		<t id="20">Konfiguration</t>
+		<t id="30">Weltweit</t>
+		<t id="40">Debug-Level</t>
+		<t id="50">Aktiviere Debug-Einstellungen</t>
+		<t id="70">Schreiben Produktionsgrenzen zu</t>
+		<t id="90">Keine Begrenzung Satz</t>
+		<t id="100">Reduzieren Produktion von</t>
+	</page>
+</language>

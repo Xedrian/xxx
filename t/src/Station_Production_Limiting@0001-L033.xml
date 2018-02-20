@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- French v0.01	9th February 2016 jth -->
+
+<language>
+	<page id="360003" title="StationProductionManager" descr="Textes pour la station de directeur de production." voice="no">
+		<t id="1">Limitation de la production</t>
+		<t id="10">Cycle</t>
+		<t id="20">Configuration</t>
+		<t id="30">Mondial</t>
+		<t id="40">Niveau de débogagel</t>
+		<t id="50">Activer Paramètres Debug</t>
+		<t id="70">Ecrire limites de production à</t>
+		<t id="90">Aucune limite ensemble</t>
+		<t id="100">Réduire la production par</t>
+	</page>
+</language>

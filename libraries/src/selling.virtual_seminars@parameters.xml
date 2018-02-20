@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+	<replace sel="/parameters/scriptparams/category[@name='itemtraderlists']/param[@name='shadyguylists']">
+		<param name="shadyguylists" value="
+        [
+          [
+            [ware.inv_hackerchips, 2, 6, 40],
+            [ware.inv_spaceflyeggs, 5, 11, 50],
+            [ware.inv_spaceflies, 1, 3, 30],
+            [ware.inv_amphetaminesulfate, 17, 39, 70],
+            [ware.inv_neuronalstimulant, 10, 24, 60],
+            [ware.inv_psychedelicmushrooms, 6, 13, 50],
+            [ware.inv_blankfreightpapers, 17, 40, 70],
+            [ware.inv_blankidcards, 10, 23, 60],
+            [ware.inv_albionvisa, 5, 12, 50],
+            [ware.inv_omicronvisa, 3, 6, 40],
+            [ware.spe_drop_mine, 1, 3, 30],
+            [ware.inv_redwater, 0, 0, 0],
+            [ware.inv_haze, 0, 0, 0],
+            [ware.inv_paranidjewellery, 0, 0, 0],
+            [ware.inv_securitydecryptionsystem, 0, 0, 0],
+            [ware.inv_decryptionmodule, 0, 0, 0],
+            [ware.inv_securityinterfacechips, 0, 0, 0],
+            [ware.inv_vipalbionvisa, 0, 0, 0],
+            [ware.inv_vipomicronvisa, 0, 0, 0],
+            [ware.inv_detonator, 0, 0, 0],
+            [ware.inv_kyonwarhead, 0, 0, 0],
+            [ware.inv_kickstarter, 0, 0, 2]
+            [ware.inv_virtualseminarcombat, 1, 3, 10],
+            [ware.inv_virtualseminarengineering, 1, 3, 10],
+            [ware.inv_virtualseminarleadership, 1, 3, 10],
+            [ware.inv_virtualseminarmanagement, 1, 3, 10],
+            [ware.inv_virtualseminarmorale, 1, 3, 10],
+            [ware.inv_virtualseminarnavigation, 1, 3, 10],
+            [ware.inv_virtualseminarscience, 1, 3, 10]
+          ]
+        ]
+      "/>
+	</replace>
+</diff>

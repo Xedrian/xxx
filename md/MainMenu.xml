@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<diff>
+	<replace sel="/mdscript[@name='MainMenu']['201 hook in Station_Production']/cues/cue[@name='SectionHandler']/actions/do_elseif[@value=&quot;event.param == 'gMain_objectProduction'&quot;]/open_conversation_menu[@menu='ProductionMenu']">
+		<open_conversation_menu menu="Station_Production" param="event.param2" param2="event.param3"/>
+	</replace>
+	<add sel="//cue[@name='SectionHandler']['hook in Station_Prod_Limit']/actions">
+		<do_elseif value="event.param == 'gMain_Station_Prod_Slider'">
+			<open_conversation_menu menu="Station_Prod_Limit" param="event.param2" param2="event.param3"/>
+		</do_elseif>
+	</add>
+	<add sel="//cue[@name='SectionHandler']['hook in Station_Prod_Config']/actions">
+		<do_elseif value="event.param == 'gMain_Station_Prod_Config'">
+			<open_conversation_menu menu="Station_Prod_Config" param="event.param2" param2="event.param3"/>
+		</do_elseif>
+	</add>
+	<add sel="/mdscript[@name='MainMenu']/cues/cue[@name='SectionHandler']/actions">
+		<do_elseif value="event.param == 'gMain_xxxBookmarks'">
+			<open_conversation_menu menu="xxxBookmarks" param="0" param2="1"/>
+			<add_conversation_view view="closeupdetailmonitor"/>
+		</do_elseif>
+	</add>
+</diff>

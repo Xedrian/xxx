@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- Spanish v0.01	9th February 2016 jth -->
+
+<language>
+	<page id="360003" title="StationProductionManager" descr="Textos para la estación del director de producción." voice="no">
+		<t id="1">La limitación de la producción</t>
+		<t id="10">Ciclo</t>
+		<t id="20">Configuración</t>
+		<t id="30">Global</t>
+		<t id="40">Nivel de depuración</t>
+		<t id="50">Activar la configuración de depuración</t>
+		<t id="70">Escribe límites en la producción a</t>
+		<t id="90">No se ha establecido límite</t>
+		<t id="100">Reducir la producción en</t>
+	</page>
+</language>

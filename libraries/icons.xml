@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<diff><add sel="/icons">
+		<icon name="xxx_credits" texture="extensions\xxx\assets\fx\gui\textures\xxx\credits.tga" height="64" width="64"/>
+		<icon name="xxx_drontype_attack" texture="extensions\xxx\assets\fx\gui\textures\xxx\dronetype_attack.tga" height="64" width="64"/>
+		<icon name="xxx_drontype_build" texture="extensions\xxx\assets\fx\gui\textures\xxx\dronetype_build.tga" height="64" width="64"/>
+		<icon name="xxx_drontype_trade" texture="extensions\xxx\assets\fx\gui\textures\xxx\dronetype_trade.tga" height="64" width="64"/>
+		<icon name="xxx_drontype_mine" texture="extensions\xxx\assets\fx\gui\textures\xxx\dronetype_mine.tga" height="64" width="64"/>
+	</add></diff>

@@ -1,0 +1,129 @@
+Author: jth
+X Rebirth version: 4.00
+Station Production v0.05 Apr 06 2017
+================================
+Limits the production rate of station production modules
+
+Please be aware that this is a beta release and that you should back up your save games before using it. Save games zip up very efficiently to about 7% of the original size.
+
+Installation and Compatibility with other mods
+==============================================
+To install it extract and copy the "station_prod" folder to the "Steam\steamapps\common\X Rebirth\extensions" folder (create the extensions folder if you don't have it already) or subscribe to it from Steam and restart the game.
+
+This mod interacts with the player via a modified production menu. It adds a production Limiting section at the bottom of the main screen.
+
+This mod patches Egosoft's NPC_Staff.xml and MainMenu.xml files and replaces menu_production.lua with production_menu_st_prod.lua and adds a completely new throttle_menu_st_prod.lua and config_menu_st_prod.lua
+
+X Rebirth will save some of the variables and the state of the Station Production cues as part of a normal save game.
+
+If you decide not to use this mod any more then
+Either
+	Go to the Configuration menu and optionally "Write Production limits to Logbook: Global" and then "Clear Production limiting: Global"
+	Then remove the "station_prod" folder or unsubscribe it from Steam and restart the game.
+Or
+	Remove the "station_prod" folder or unsubscribe it from Steam and restart the game (leaves some config info behind in Manager and player BlackBoards).
+
+=== How to Use ===
+Select the Station whose production module you wish to limit and click on Details
+Open up the Production modules section
+Select the Production module that you want to limit and click on Details
+
+The Production Limiting section lists all of the wares that this module can produce
+Click on the configuration icon (spanner) to the left of the ware that you want to limit
+Now use the slider in the Production Limiting menu to set the production limiting or brake factor. 0% does nothing and 100% will stop all production for this module
+Click on OK to accept the limit or Back to abandon any changes
+This ware will now be limited
+
+To change your mind return to the Production Limiting screen at any time
+Setting the limit to 0% and clicking on OK will remove a production limit
+
+If you want to use the Configuration menu then click on the top left icon (spanner) on the Production Limiting menu
+
+The Station Production Limiting mod :-
+-----------------------------------
+Limits individual production modules on player stations
+Allows different limits to be placed on each production module on each station and across different player stations
+Supports the URV Wharf, Turret and Missile Forges which produce multiple products by limiting one or more of the potential products
+If a product is 100% limited then the production cycle still runs but the production module, on average, produces nothing and consumes nothing
+Reduces consumption of Primary and Secondary wares to go with the reduction in Products
+A production limit can be set at any time and will immediately return un-needed resources but the product totals (stock adjustment) will only update at the end of the production cycle
+The Production Limiting menu works in the same way as the Encyclopedia menu and does not show the effect of Product Efficiency (Specialists etc) but it will take that into account when it adjusts the production quantities
+The Production Limiting menu only shows Primary Resources due to space limitations but it will limit the use of secondary resources when it adjusts the production quantities
+As resources cannot be produced or consumed in fractions of units this mod attempts to limits the factor to values that consume and create complete units of wares
+Multi-lingual with support for Russian, French, Italian, Spanish, English and German
+
+=== Configuration menu ===
+Let you dynamically set the Debug level.
+The higher of the Global or Station setting takes effect for that station
+If you set the Global Debug to 1 or 2 and look in the debug log then you will see some additional information that shows what is happening under the bonnet.
+You will need a log file tailing program such as SnakeTail (http://snakenest.com/snaketail) to watch the end of the debug.log
+Lets you log the configuration to the Logbook
+Allows you to remove most of the data that this mod uses
+
+=== How it works ===
+This is a work around to the station managers production software
+
+It relies on the station manager restocking some wares for it and adjusting the total production at the end of each batch as the production module software doesn't realise that some of its resources have been put back into stock
+
+The full set of wares is still needed to start off a modified production cycle.
+Within about 10 seconds of production starting the manager restocks a proportion of the wares which prevents the production module from producing the full amount of product and reduces the wares that it consumes
+At the end of the production cycle the manager has to adjust the stock levels of product as the production module thinks that it has produced more than it actually has.
+The result of the station managers work is to reduce the total amount of a specific ware that is produced and to reduce the wares that it consumes.
+
+=== URV Wharf, Missile and Turret Forges ===
+These produce more than one product by cycling betweeen the available products.
+The products can be individually limited and the limits can be set at any time.
+The limits for a specific product won't take effect until that product gets to its production slot.
+
+=== Known issues ===
+The full set of wares is still needed to start off a production cycle
+The configuration data is wiped from a manager's BlackBoard when they are re-assigned. So make sure you save the info to the Logbook first ...
+The Production Limiting menu slider value display has some rounding issues and only shows to the nearest integer
+The debug information for the URV Wharf, Missile and Turret Forges does not correctly identify if a specific product is being produced - it reports them all as in the same state - cosmetic
+Clearing the limits still leaves an empty list and a single blank value on each manager and the players BlackBoards. There is no lua Delete BlackBoard entry that I know of at the moment
+
+=== ToDo ===
+Module level debuging
+Fully clean up player and Manager Blackboards
+Alter the production rates displayed on the main production menu to show the effects of the production limit
+Production Limit menu maybe put up a warning at the top of the screen if you are missing the resources to start a production cycle
+
+=== Thanks ===
+alexalsp and sparky for helping me find some of the bugs, doing some translation and providing some very useful feedback
+All remaining bugs are mine
+
+=== Diagnosing issues ===
+
+These instructions are for Windows 7 64 bit, please adjust for other versions
+
+Start X Rebirth in debug logging mode by adding  "-debug all -logfile debug.log" to the end of the command line
+
+In my case this would look like
+
+"C:\Program Files (x86)\Steam\steamapps\common\X Rebirth\XRebirth.exe" -debug all -logfile debug.log
+
+That will create a debug.log file at the same level as your save game folder
+
+=== Release history ===
+- [06.04.2017 - V0.05 Public Beta]
+	production_menu_st_prod.lua, limit_menu_st.prod, config_menu_st_prod gui - Compensate for format of version string changing in 4.10 RC3 and add extra paranoia when checking version to prevent crashing the GUI
+
+- [07.03.2016 - V0.04 Public Beta]
+	production_menu_st_prod.lua was always using the default production method even with OL stations which caused food to be displayed as a primary resource instead of Bofu. Although it displayed food while setting the Limiting factor it actually correctly returned Bofu so this was actually cosmetic. Added a work around that should cope with omicron, devries and xenon production methods
+
+- [02.03.2016 - V0.03 Public Beta]
+	renamed throttle_menu_st_prod.lua to limit_menu_st_prod.lua to line up better with mod naming
+	Changed names within lua scripts to line up better with mod naming
+	"increased paranoia" by doing more input and API return value checking in lua scripts. I hope this will help to cope with weird and wonderful game scenarios, duff stations, API calls that unexpectedly fail and other oddities
+
+- [25.02.2016 - V0.02 Public Beta]
+	throttle_menu_st_prod.lua Add the minimum primary wares that are needed to start a production batch and a station Storage column
+	throttle_menu_st_prod.lua Improve onUpdate to only update the screen if something has changed
+	throttle_menu_st_prod.lua Add station storage to onUpdate
+	throttle_menu_st_prod.lua, production_menu_st_prod.lua and config_menu_st_prod.lua menu.remotelog Compensate for changes to AddUITriggeredEvent parameters in 4.00 RC2
+	production_menu_st_prod.lua Compensate for changes to gEncyclopedia_ware parameters in 4.00 RC2
+	production_menu_st_prod.lua Incorporate Egosoft version of fix for onUpdate
+	st_prod.xml St_Prod_Logger Compensate for changes to AddUITriggeredEvent parameters in 4.00 RC2
+
+- [17.02.2016 - V0.01 Public Beta]
+	Initial Release

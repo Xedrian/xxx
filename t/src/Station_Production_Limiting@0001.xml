@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- English v0.01	9th February 2016 jth -->
+
+<language>
+	<page id="360003" title="StationProductionManager" descr="Texts for Station production manager." voice="no">
+		<t id="1">Production Limiting</t>
+		<t id="10">Cycle</t>
+		<t id="20">Configuration</t>
+		<t id="30">Global</t>
+		<t id="40">Debug level</t>
+		<t id="50">Activate Debug Settings</t>
+		<t id="70">Write Production limits to</t>
+		<t id="90">No limit set</t>
+		<t id="100">Reduce production by</t>
+	</page>
+</language>
