@@ -7,7 +7,7 @@
 
 #generated files from source
 t/*.xml
-#md/*.xml
-#libraries/*.xml
+md/*.xml
+libraries/*.xml
 index/*.xml
-#aiscripts/*.xml
+aiscripts/*.xml

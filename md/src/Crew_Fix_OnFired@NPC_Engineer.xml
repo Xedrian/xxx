@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <diff>
 	<add sel="//cue[@name='OnPlatformPopulation_Engineer']/cues/cue[@name='OnFired']/actions/do_if" pos="before">
 		<destroy_object object="$actor"/>
