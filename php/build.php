@@ -1,75 +1,113 @@
 <?php
 
 
+/**
+ * @param float $seconds
+ */
 function wait($seconds = 0.10)
 {
-    usleep(($seconds) * 1000000);
+	usleep(($seconds) * 1000000);
 }
 
+/**
+ * @param $dir
+ * @param string $pattern
+ */
 function removeFilesFromDir($dir, $pattern = '~[A-z0-9-_]+\.xml$~')
 {
-    if ($dh = opendir($dir)) {
-        while (($fileName = readdir($dh)) !== false) {
-            if (is_file($file = $dir . $fileName)) {
-                if (preg_match($pattern, $fileName)) {
-                    echo 'remove file:' . $fileName . chr(10);
-                    unlink($file);
-                    wait();
-                }
-            }
-        }
+	if ($dh = opendir($dir)) {
+		while (($fileName = readdir($dh)) !== false) {
+			if (is_file($file = $dir . $fileName)) {
+				if (preg_match($pattern, $fileName)) {
+					echo 'remove file:' . $fileName . chr(10);
+					unlink($file);
+					wait();
+				}
+			}
+		}
 
-    }
+	}
 }
 
+/**
+ * @param $dir
+ * @param $targetDir
+ * @param $rootNode
+ */
 function buildFilesFromDir($dir, $targetDir, $rootNode)
 {
-    $outFiles = array();
-    if ($dh = opendir($dir)) {
-        while (($fileName = readdir($dh)) !== false) {
-            if (is_file($file = $dir . $fileName)) {
-                $fileInfo = pathinfo($file);
-                if ($fileInfo['extension'] == 'xml') {
-                    list(, $targetFileName) = preg_split('~[@]~', $fileName);
-                    if (!($outFiles[$targetFileName])) {
-                        $outFiles[$targetFileName] = array();
-                    }
-                    /**
-                     * @var SimpleXMLElement $singleDoc
-                     */
-                    if ($singleDoc = simplexml_load_file($file)) {
-                        echo "process file: " . $file . "\n";
-                        wait();
-                        /**
-                         * @var SimpleXMLElement $diffChildNode
-                         */
-                        foreach ($singleDoc->children() as $diffChildNode) {
-                            $outFiles[$targetFileName][] = $diffChildNode->asXML();
-                        }
-                    }
-                }
-            }
-        }
-    }
+	$outFiles = array();
+	if ($dh = opendir($dir)) {
+		while (($fileName = readdir($dh)) !== false) {
+			if (is_file($file = $dir . $fileName)) {
+				$fileInfo = pathinfo($file);
+				if ($fileInfo['extension'] == 'xml') {
+					list($extension, $targetFileName) = preg_split('~[@]~', $fileName);
+					if (!($outFiles[$targetFileName])) {
+						$outFiles[$targetFileName] = array();
+					}
+					/**
+					 * @var SimpleXMLElement $singleDoc
+					 */
+					$xml = getFileContent($file);
 
-    /**
-     * @var SimpleXMLElement $xmlNode
-     */
-    foreach ($outFiles as $targetFileName => $aXmlContents) {
-        $xml = new SimpleXMLElement('<' . $rootNode . '>' . implode(chr(10), $aXmlContents) . '</' . $rootNode . '>');
-        $xml->asXML($targetDir . $targetFileName);
+					$xml = preg_replace('~(^[ ]{1,}|[ ]{1,}$)~msi', '', $xml);
+					$xml = preg_replace('~[\n|\r|\t]~i', '', $xml);
+					$xml = preg_replace('/<!--(.|\s)*?-->/', '', $xml);
 
-    }
+					if ($singleDoc = simplexml_load_string($xml)) {
+						echo "process file: " . $file . "\n";
+						wait();
+						/**
+						 * @var SimpleXMLElement $diffChildNode
+						 */
+						$outFiles[$targetFileName][] = "\n" . '<!-- Source: ' . $extension . ' -->';
+						foreach ($singleDoc->children() as $diffChildNode) {
+							$outFiles[$targetFileName][] = $diffChildNode->asXML();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @var SimpleXMLElement $xmlNode
+	 */
+	foreach ($outFiles as $targetFileName => $aXmlContents) {
+		$dom = new DOMDocument('1.0', 'utf-8');
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		$dom->loadXML('<' . $rootNode . '>' . implode('', $aXmlContents) . '</' . $rootNode . '>');
+		$formattedContent = $dom->saveXML();
+		setFileContent($targetDir . $targetFileName, $formattedContent);
+	}
 }
 
+/**
+ * @param $file
+ * @param $content
+ */
+function setFileContent($file, $content)
+{
+	if ($fp = fopen($file, 'w')) {
+		fwrite($fp, $content);
+		fclose($fp);
+	}
+}
+
+/**
+ * @param $file
+ * @return bool|string
+ */
 function getFileContent($file)
 {
-    $content = '';
-    if ($fp = fopen($file, 'r')) {
-        $content = fread($fp, filesize($file));
-        fclose($fp);
-    }
-    return $content;
+	$content = '';
+	if ($fp = fopen($file, 'r')) {
+		$content = fread($fp, filesize($file));
+		fclose($fp);
+	}
+	return $content;
 }
 
 /**
@@ -79,8 +117,8 @@ function getFileContent($file)
  */
 function build($rootNode, $currentDir, $targetDir)
 {
-    echo "process folder: " . $targetDir . "\n";
-    wait();
-    removeFilesFromDir($targetDir);
-    buildFilesFromDir($currentDir, $targetDir, $rootNode);
+	echo "process folder: " . $targetDir . "\n";
+	wait();
+	removeFilesFromDir($targetDir);
+	buildFilesFromDir($currentDir, $targetDir, $rootNode);
 }

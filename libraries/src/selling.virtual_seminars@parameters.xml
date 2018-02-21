@@ -25,7 +25,7 @@
             [ware.inv_vipomicronvisa, 0, 0, 0],
             [ware.inv_detonator, 0, 0, 0],
             [ware.inv_kyonwarhead, 0, 0, 0],
-            [ware.inv_kickstarter, 0, 0, 2]
+            [ware.inv_kickstarter, 0, 0, 2],
             [ware.inv_virtualseminarcombat, 1, 3, 10],
             [ware.inv_virtualseminarengineering, 1, 3, 10],
             [ware.inv_virtualseminarleadership, 1, 3, 10],
