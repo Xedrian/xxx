@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon name="xxx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="addon.xsd">
-
 	<environment type="detailmonitor">
 		<!-- xxx -->
 		<!-- xxx - libraries -->
@@ -17,12 +16,10 @@
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_crew.lua"/>
 		<!-- xxx - new menues-->
 		<file name="ui/addons/xxx/ego_detailmonitor/xxx_menu_bookmarks.lua"/>
-
 		<!-- Station_Production_Limiting -->
-		<file name="ui/addons/Station_Production_Limiting/production_menu_st_prod.lua" />
-		<file name="ui/addons/Station_Production_Limiting/limit_menu_st_prod.lua" />
-		<file name="ui/addons/Station_Production_Limiting/config_menu_st_prod.lua" />
-
+		<file name="ui/addons/Station_Production_Limiting/production_menu_st_prod.lua"/>
+		<file name="ui/addons/Station_Production_Limiting/limit_menu_st_prod.lua"/>
+		<file name="ui/addons/Station_Production_Limiting/config_menu_st_prod.lua"/>
 		<!-- deps -->
 		<dependency name="ego_detailmonitor"/>
 	</environment>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<diff>
+	<replace sel="//do_else/do_if[@value='$ship?']">
+		<add_player_choice_sub text="{1002,4008}" position="left" section="cArch_buildcost" choiceparam="[0, 0, $actor, $BuildModule, $BuildModule.buildanchor, $BuildModule.buildanchor.macro.id]" comment="Show resource status"/>
+	</replace>
+</diff> 

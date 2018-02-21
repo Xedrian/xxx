@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:simpleType name="racelookup">
+    <xs:annotation>
+      <xs:documentation>
+        Race lookup values generated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="argon">
+        <xs:annotation>
+          <xs:documentation>
+            Argon
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="boron">
+        <xs:annotation>
+          <xs:documentation>
+            Boron
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="drone">
+        <xs:annotation>
+          <xs:documentation>
+            Drone
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="paranid">
+        <xs:annotation>
+          <xs:documentation>
+            Paranid
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="split">
+        <xs:annotation>
+          <xs:documentation>
+            Split
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="teladi">
+        <xs:annotation>
+          <xs:documentation>
+            Teladi
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="xenon">
+        <xs:annotation>
+          <xs:documentation>
+            Xenon
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="terran">
+        <xs:annotation>
+          <xs:documentation>
+            Terran
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

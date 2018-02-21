@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="racelookup.xsd" />
+
+  <xs:simpleType name="relationvalue">
+    <xs:annotation>
+      <xs:documentation>
+        Relationship value
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="-1">
+        <xs:annotation>
+          <xs:documentation>
+            I do not like you
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:documentation>
+            I like you
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="0">
+        <xs:annotation>
+          <xs:documentation>
+            I am neutral towards you
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="raceid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([a-z])+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="relation">
+    <xs:attribute name="race" type="racelookup">
+      <xs:annotation>
+        <xs:documentation>
+          Faction id for relationship
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="relation" type="relationvalue">
+      <xs:annotation>
+        <xs:documentation>
+          Relation value for relationship
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="relations">
+    <xs:sequence>
+      <xs:element name="relation" type="relation" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Relation for one faction to another
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="race">
+    <xs:sequence>
+      <xs:element name="relations" type="relations" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Relations for a race
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="raceid">
+      <xs:annotation>
+        <xs:documentation>
+          Race id
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Race name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="description" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Race description
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="races">
+    <xs:sequence>
+      <xs:element name="race" type="race" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Definition of a single  race
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="races" type="races">
+    <xs:annotation>
+      <xs:documentation>
+        Race DB
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+</xs:schema>

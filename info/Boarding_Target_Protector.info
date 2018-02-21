@@ -1,0 +1,5 @@
+Title: Boarding_Target_Protector
+Description: This mod protects your boarding targets from being destroyed and, thus, your marines from being killed.&#13;&#10;The protection triggers when you launch your marines.&#13;&#10;&#13;&#10;Version:&#13;&#10;*1.1&#13;&#10;&#13;&#10;Known issues:&#13;&#10;*When boarding one ship, allies might also decrease shooting frequency at enemies that are not being boarded.&#13;&#10;&#13;&#10;Mod Incompatibilities:&#13;&#10;*None known.&#13;&#10;&#13;&#10;X:RB Version&#13;&#10;*4.3&#13;&#10;&#13;&#10;Savegame compatible:&#13;&#10;*Yes&#13;&#10;&#13;&#10;Future work:&#13;&#10;*minor optimizations and bugfixing
+Version: 1.11
+Author: JJ
+Source: Steam

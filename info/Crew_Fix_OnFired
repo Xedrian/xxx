@@ -1,0 +1,5 @@
+Title: Crew Fix OnFired
+Description: Due to a bug of the game, all the appointment is terminated NPC settled administratively dock. This mod will dismiss the NPC with Skunk without sending to a station, that will prevent overcrowding in the control module of station.
+Version: 0.11
+Author: AlexYar/ alexalsp
+Source: Steam

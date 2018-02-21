@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- created by MIB -->
+
+<language>
+	<page id="30114" title="Upkeep Missions" descr="0" voice="no">
+		<t id="402">Acquire an Engineer(see:20208,701) for your station, $OBJECT$.</t>
+	</page>
+
+	<page id="900000" title="Repack Construction Vessel" descr="0" voice="no">
+		<t id="15101">Detach from station</t>
+	</page>
+</language>

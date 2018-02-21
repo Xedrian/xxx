@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:attributeGroup name="collectableammoamount">
+    <xs:attribute name="min" type="xs:positiveInteger" />
+    <xs:attribute name="max" type="xs:positiveInteger" />
+    <xs:attribute name="exact" type="xs:positiveInteger" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="wareamount">
+    <xs:annotation>
+      <xs:documentation>
+        Ware amount
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="ware" type="namestring" use="required" />
+    <xs:attribute name="amount" type="xs:positiveInteger" />
+    <xs:attribute name="min" type="xs:positiveInteger" />
+    <xs:attribute name="max" type="xs:positiveInteger" />
+  </xs:complexType>
+
+  <xs:complexType name="collectablewares">
+    <xs:annotation>
+      <xs:documentation>
+        Collectable wares
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="ware" type="wareamount" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="select" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Selection element (used if selection attribute present)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ware" type="wareamount" minOccurs="1" maxOccurs="unbounded" />
+          </xs:sequence>
+          <xs:attribute name="weight" type="selectionweight" />
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+    <xs:attribute name="selection" type="selectionlookup" />
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <xs:complexType name="collectablemoney">
+    <xs:attribute name="chance">
+      <xs:annotation>
+        <xs:documentation>
+          Chance percentage of spawning any money (default is 100)
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+          <xs:maxInclusive value="100" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="min" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="max" type="xs:positiveInteger" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="collectableammo">
+    <xs:annotation>
+      <xs:documentation>
+        Collectable ammo
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="select" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Selection element (used if selection attribute present)
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attribute name="macro" type="namestring" use="required" />
+          <xs:attributeGroup ref="collectableammoamount" />
+          <xs:attribute name="weight" type="selectionweight" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="macro" type="namestring" />
+    <xs:attributeGroup ref="collectableammoamount" />
+    <xs:attribute name="selection" type="selectionlookup" />
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <xs:complexType name="collectableshieldrestore">
+    <xs:annotation>
+      <xs:documentation>
+        Collectable shieldrestore
+      </xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+
+  <xs:complexType name="drop">
+    <xs:annotation>
+      <xs:documentation>
+        Drop definition
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="collectable" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:choice>
+            <xs:sequence>
+              <xs:element name="wares" type="collectablewares" />
+              <xs:element name="money" type="collectablemoney" minOccurs="0" maxOccurs="1" />
+            </xs:sequence>
+            <xs:element name="money" type="collectablemoney" />
+            <xs:element name="ammo" type="collectableammo" />
+            <xs:element name="shieldrestore" type="collectableshieldrestore" />
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="chance">
+      <xs:annotation>
+        <xs:documentation>
+          Chance percentage of spawning any drops (default is 100)
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+          <xs:maxInclusive value="100" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="min" type="xs:positiveInteger">
+      <xs:annotation>
+        <xs:documentation>
+          Minimal amount (default is 1)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="max" type="xs:positiveInteger">
+      <xs:annotation>
+        <xs:documentation>
+          Maximal amount
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="macro" type="namestring">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name (required in all cases except for collectable wares - if no macro is supplied in this case, the container macro from WareDB is used)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <!-- ===== Root element ==== -->
+
+  <xs:element name="droplists">
+    <xs:annotation>
+      <xs:documentation>
+        DropDB document node
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="droplist">
+          <xs:annotation>
+            <xs:documentation>
+              List of drop definitions
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="drop" minOccurs="0" maxOccurs="unbounded" type="drop" />
+            </xs:sequence>
+            <xs:attribute name="id" type="idname" use="required">
+              <xs:annotation>
+                <xs:documentation>
+                  ID
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name">
+              <xs:annotation>
+                <xs:documentation>
+                  Name
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="description">
+              <xs:annotation>
+                <xs:documentation>
+                  Description
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="droplist_id">
+      <xs:selector xpath="droplist" />
+      <xs:field xpath="@id" />
+    </xs:key>
+  </xs:element>
+
+</xs:schema>

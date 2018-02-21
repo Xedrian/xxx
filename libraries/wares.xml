@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
-<diff><replace sel="//ware[@id='inv_terranhightechgoods']/@tags">crafting inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarcombat']/@tags">crafting gift inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarengineering']/@tags">crafting gift inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarleadership']/@tags">crafting gift inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarmanagement']/@tags">crafting gift inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarmorale']/@tags">crafting gift inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarnavigation']/@tags">crafting gift inventory</replace>
-<replace sel="//ware[@id='inv_virtualseminarscience']/@tags">crafting gift inventory</replace>
-<add sel="/wares/ware[@id='inv_virtualseminarcombat']">
+<diff>
+	<replace sel="//ware[@id='inv_terranhightechgoods']/@tags">crafting inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarcombat']/@tags">crafting gift inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarengineering']/@tags">crafting gift inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarleadership']/@tags">crafting gift inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarmanagement']/@tags">crafting gift inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarmorale']/@tags">crafting gift inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarnavigation']/@tags">crafting gift inventory</replace>
+	<replace sel="//ware[@id='inv_virtualseminarscience']/@tags">crafting gift inventory</replace>
+	<add sel="/wares/ware[@id='inv_virtualseminarcombat']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -15,7 +16,7 @@
 			</primary>
 		</production>
 	</add>
-<add sel="/wares/ware[@id='inv_virtualseminarengineering']">
+	<add sel="/wares/ware[@id='inv_virtualseminarengineering']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -23,7 +24,7 @@
 			</primary>
 		</production>
 	</add>
-<add sel="/wares/ware[@id='inv_virtualseminarleadership']">
+	<add sel="/wares/ware[@id='inv_virtualseminarleadership']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -31,7 +32,7 @@
 			</primary>
 		</production>
 	</add>
-<add sel="/wares/ware[@id='inv_virtualseminarmanagement']">
+	<add sel="/wares/ware[@id='inv_virtualseminarmanagement']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -39,7 +40,7 @@
 			</primary>
 		</production>
 	</add>
-<add sel="/wares/ware[@id='inv_virtualseminarmorale']">
+	<add sel="/wares/ware[@id='inv_virtualseminarmorale']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -47,7 +48,7 @@
 			</primary>
 		</production>
 	</add>
-<add sel="/wares/ware[@id='inv_virtualseminarnavigation']">
+	<add sel="/wares/ware[@id='inv_virtualseminarnavigation']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -55,7 +56,7 @@
 			</primary>
 		</production>
 	</add>
-<add sel="/wares/ware[@id='inv_virtualseminarscience']">
+	<add sel="/wares/ware[@id='inv_virtualseminarscience']">
 		<production time="10" amount="1" method="default" name="{20206,501}">
 			<primary>
 				<ware ware="inv_securitydecryptionsystem" amount="1"/>
@@ -63,24 +64,25 @@
 			</primary>
 		</production>
 	</add>
-<replace sel="//ware[@id='inv_virtualseminarcombat']/price">
+	<replace sel="//ware[@id='inv_virtualseminarcombat']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
 	</replace>
-<replace sel="//ware[@id='inv_virtualseminarengineering']/price">
+	<replace sel="//ware[@id='inv_virtualseminarengineering']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
 	</replace>
-<replace sel="//ware[@id='inv_virtualseminarleadership']/price">
+	<replace sel="//ware[@id='inv_virtualseminarleadership']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
 	</replace>
-<replace sel="//ware[@id='inv_virtualseminarmanagement']/price">
+	<replace sel="//ware[@id='inv_virtualseminarmanagement']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
 	</replace>
-<replace sel="//ware[@id='inv_virtualseminarmorale']/price">
+	<replace sel="//ware[@id='inv_virtualseminarmorale']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
 	</replace>
-<replace sel="//ware[@id='inv_virtualseminarnavigation']/price">
+	<replace sel="//ware[@id='inv_virtualseminarnavigation']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
 	</replace>
-<replace sel="//ware[@id='inv_virtualseminarscience']/price">
+	<replace sel="//ware[@id='inv_virtualseminarscience']/price">
 		<price min="1000000" average="1750000" max="2000000"/>
-	</replace></diff>
+	</replace>
+</diff>

@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <!-- ===== Root elements ==== -->
+
+  <xs:element name="ships">
+    <xs:annotation>
+      <xs:documentation>
+        Root element of ships.xml
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ship">
+          <xs:annotation>
+            <xs:documentation>
+              Ship definition
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="category" minOccurs="0" maxOccurs="1" type="shipdbcategory">
+                <xs:annotation>
+                  <xs:documentation>
+                    Ship category used for finding a suitable ship in the ShipDB
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:group ref="createship" />
+            </xs:sequence>
+            <xs:attributeGroup ref="createship" />
+            <xs:attribute name="id" type="idname" use="required">
+              <xs:annotation>
+                <xs:documentation>
+                  ID
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name">
+              <xs:annotation>
+                <xs:documentation>
+                  Name
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="description">
+              <xs:annotation>
+                <xs:documentation>
+                  Description
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="ship_id">
+      <xs:selector xpath="ship" />
+      <xs:field xpath="@id" />
+    </xs:key>
+  </xs:element>
+
+  <xs:element name="characters">
+    <xs:annotation>
+      <xs:documentation>
+        Root element of characters.xml
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="character">
+          <xs:annotation>
+            <xs:documentation>
+              Character (NPC) definition
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="category" minOccurs="0" maxOccurs="1" type="characterdbcategory">
+                <xs:annotation>
+                  <xs:documentation>
+                    Character category used for finding a suitable character in the CharacterDB
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:group ref="createnpc" />
+            </xs:sequence>
+            <xs:attributeGroup ref="createnpc" />
+            <xs:attribute name="id" type="idname" use="required">
+              <xs:annotation>
+                <xs:documentation>
+                  ID
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name">
+              <xs:annotation>
+                <xs:documentation>
+                  Name
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="description">
+              <xs:annotation>
+                <xs:documentation>
+                  Description
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="character_id">
+      <xs:selector xpath="character" />
+      <xs:field xpath="@id" />
+    </xs:key>
+  </xs:element>
+
+  <xs:complexType name="task">
+    <xs:annotation>
+      <xs:documentation>
+        Task
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="param">
+        <xs:complexType>
+          <xs:attribute name="name" type="paramname" use="required" />
+          <xs:attribute name="value" type="expression" />
+          <!-- Backward compatibility -->
+          <xs:attribute name="string" />
+          <xs:attribute name="bool" type="boolean" />
+          <xs:attribute name="int" type="xs:integer" />
+          <xs:attribute name="float" type="xs:float" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="task" type="namestring" use="required" />
+    <xs:attribute name="entitytype" type="entitytypelookup" />
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <xs:element name="jobs">
+    <xs:annotation>
+      <xs:documentation>
+        Root element of jobs.xml
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="job">
+          <xs:annotation>
+            <xs:documentation>
+              Job definition
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="basket">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Default ware basket to select wares from. This basket definition is used when neither basket nor list are defined in a wares element of the ship definition.
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="basket" type="namestring" use="required" />
+                    <xs:attribute name="comment" type="comment" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="task" type="task" />
+                <xs:element name="tasks">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Specify tasks for multiple entities on the created ship. If this is specified any single &lt;task /&gt; node in the job root is ignored.
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                      <xs:element name="task" type="task" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="quota" type="basequota" minOccurs="0" maxOccurs="1" />
+                <xs:element name="quotas" type="gamestartquotas" minOccurs="0" maxOccurs="1" />
+                <xs:element name="location">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Location
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="macro" />
+                    <xs:attribute name="class" />
+                    <xs:attribute name="faction" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="difficulty" minOccurs="0" maxOccurs="1">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Difficulty
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="min" type="gamedifficulty"/>
+                    <xs:attribute name="max" type="gamedifficulty"/>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="commander">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Location
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="macro" />
+                    <xs:attribute name="entitytype" type="entitytypelookup" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="environment">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Environment
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="zone" type="boolean" />
+                    <xs:attribute name="gate" type="boolean" />
+                    <xs:attribute name="spawninsector" type="boolean" />
+                    <xs:attribute name="spwanoutofsector" type="boolean" />
+                    <xs:attribute name="chancedocked">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                          <xs:minInclusive value="0" />
+                          <xs:maxInclusive value="100" />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="position">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Position in zone
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:sequence minOccurs="0" maxOccurs="1">
+                      <xs:element name="distance">
+                        <xs:annotation>
+                          <xs:documentation>
+                            Distance from the position
+                          </xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:attribute name="exact">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Exact distance from the position
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:float">
+                                <xs:minExclusive value="0" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:attribute>
+                          <xs:attribute name="min">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Minimum distance from the position (same as exact if 'max' is omitted)
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:float">
+                                <xs:minExclusive value="0" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:attribute>
+                          <xs:attribute name="max">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Maximum distance from the position (min treated as 0 if omitted)
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:float">
+                                <xs:minExclusive value="0" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:attribute>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="x">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:float"/>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="y">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:float"/>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="z">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:float"/>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="modifiers">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Modifiers
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="invincible" type="boolean" />
+                    <xs:attribute name="rebuild" type="boolean" />
+                    <xs:attribute name="subordinate" type="boolean" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="time">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Job timing
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="interval" use="required">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Minimum job processing interval with +/- 25% random variation
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:double">
+                          <xs:minExclusive value="0" />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="start">
+                      <xs:annotation>
+                        <xs:documentation>
+                          First job processing time (interval without variation is used if not specified)
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:double">
+                          <xs:minInclusive value="0" />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="units">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Units
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                      <xs:element name="unit">
+                        <xs:complexType>
+                          <xs:attribute name="category" use="required" />
+                          <xs:attribute name="mk" type="xs:integer" use="required" />
+                          <xs:attribute name="min" type="xs:integer" use="required" />
+                          <xs:attribute name="max" type="xs:integer" use="required" />
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="expirationtime">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Job expiration time (affects script property .jobexpired). Some time after destruction, the object will be re-created by job engine.
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:attribute name="min" use="required">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Minimum expiration time in seconds
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:double">
+                          <xs:minExclusive value="0" />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="max">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Maximum expiration time in seconds
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:double">
+                          <xs:minExclusive value="0" />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+              <xs:choice>
+                <xs:sequence>
+                  <xs:element name="ship">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Non-mass-traffic ship definition
+                      </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:group ref="createship" />
+                      <xs:attributeGroup ref="createship" />
+                      <xs:attribute name="comment" type="comment" />
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="subordinates" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Subordinates
+                      </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="subordinate">
+                          <xs:complexType>
+                            <xs:attribute name="job" use="required" />
+                          </xs:complexType>
+                          <!-- 
+                          <xs:keyref name="subordinate_job" refer="job_id">
+                            <xs:selector xpath="." />
+                            <xs:field xpath="@job" />
+                          </xs:keyref>
+ -->
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+                <xs:element name="masstraffic">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Mass-traffic ship definition
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:group ref="createship" />
+                    <xs:attributeGroup ref="createship" />
+                    <xs:attribute name="comment" type="comment" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="id" type="idname" use="required">
+              <xs:annotation>
+                <xs:documentation>
+                  ID
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name">
+              <xs:annotation>
+                <xs:documentation>
+                  Name
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="description">
+              <xs:annotation>
+                <xs:documentation>
+                  Description
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="disabled">
+              <xs:annotation>
+                <xs:documentation>
+                  Skips loading of the job completely, as if commented out (defaults to false)
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="startactive" type="boolean">
+              <xs:annotation>
+                <xs:documentation>
+                  Default active state (defaults to true) - should not be true when defining wing quota
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="fullname" type="boolean">
+              <xs:annotation>
+                <xs:documentation>
+                  Allow including ship type and variation in ship name? Defaults to true
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="ignorecommanderwares" type="boolean">
+              <xs:annotation>
+                <xs:documentation>
+                  Skip checks which enforce the basket wares match with the commanders production wares (defaults to false)
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="comment" type="comment" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="job_id">
+      <xs:selector xpath="job" />
+      <xs:field xpath="@id" />
+    </xs:key>
+  </xs:element>
+
+  <xs:attributeGroup name="quotas">
+    <xs:attribute name="galaxy" type="xs:integer" />
+    <xs:attribute name="wing" type="xs:integer" />
+    <xs:attribute name="cluster" type="xs:integer" />
+    <xs:attribute name="sector" type="xs:integer" />
+    <xs:attribute name="zone" type="xs:integer" />
+    <xs:attribute name="station" type="comment" />
+    <xs:attribute name="variation" type="xs:integer">
+      <xs:annotation>
+        <xs:documentation>
+          Variation, requires wing attribute
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <xs:complexType name="basequota">
+    <xs:annotation>
+      <xs:documentation>
+        Quotas across all gamestarts
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="quotas"/>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartquota">
+    <xs:annotation>
+      <xs:documentation>
+        Quota entry for gamestart (or default if 'gamestart' omitted)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="quotas"/>
+    <xs:attribute name="gamestart" type="namestring"/>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartquotas">
+    <xs:annotation>
+      <xs:documentation>
+        Quotas optionally filtered by gamestart
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="quota" type="gamestartquota" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:choice>
+  </xs:complexType>
+
+</xs:schema>

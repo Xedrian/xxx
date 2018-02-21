@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:simpleType name="positiveInteger32">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="comment">
+    <xs:annotation>
+      <xs:documentation>
+        Comment
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="units">
+    <xs:annotation>
+      <xs:documentation>
+        Stat units (default is none, i.e. just counting)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="seconds" />
+      <xs:enumeration value="credits" />
+      <xs:enumeration value="metres" />
+      <xs:enumeration value="kilometres" />
+      <xs:enumeration value="unixseconds" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="datatype">
+    <xs:annotation>
+      <xs:documentation>
+        Internal data type (optional, derived from units if not supplied)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="int" />
+      <xs:enumeration value="int64" />
+      <xs:enumeration value="float" />
+      <xs:enumeration value="double" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="fractional_digits">
+    <xs:annotation>
+      <xs:documentation>
+        Number of fractional digits (Optional, only applies to floating point data types. Default is 0. Any other value is not compatible with separators.)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:union memberTypes="xs:nonNegativeInteger">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="auto" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:simpleType name="default">
+    <xs:annotation>
+      <xs:documentation>
+        Default stat value (default is 0 if not supplied)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal" />
+  </xs:simpleType>
+
+  <xs:simpleType name="format">
+    <xs:annotation>
+      <xs:documentation>
+        Display format (optional, derived from units if not supplied. Use %s as placeholder for the stat value)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="separators">
+    <xs:annotation>
+      <xs:documentation>
+        Use (localised) separator for groups of three digits? (Optional, default is true; if used on a floating point type, the fractional digits are discarded)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean" />
+  </xs:simpleType>
+
+  <xs:simpleType name="secret">
+    <xs:annotation>
+      <xs:documentation>
+        Hide stat in menu if the value is the default value? (Optional, default is false)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean" />
+  </xs:simpleType>
+
+  <xs:simpleType name="highest">
+    <xs:annotation>
+      <xs:documentation>
+        Keep only the highest value? (Optional, default is false)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean" />
+  </xs:simpleType>
+
+  <xs:simpleType name="account">
+    <xs:annotation>
+      <xs:documentation>
+        Is stat stored in Steam account persistently across savegames? (Optional, default is false)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:boolean" />
+  </xs:simpleType>
+
+  <xs:simpleType name="leaderboard">
+    <xs:annotation>
+      <xs:documentation>
+        Name of the corresponding Steam leaderboard if this stat should be stored in a leaderboard (optional). The name should be display-friendly but still be a unique identifier.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="mindifficulty">
+    <xs:annotation>
+      <xs:documentation>
+        Minimum difficulty level that is required for this stat to be changed. A stat change is only accepted if the game was started on at least this difficulty level
+        and it was never changed to an easier difficulty level. The default is the lowest difficulty level (stat change is always allowed).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="easy" />
+      <xs:enumeration value="medium" />
+      <xs:enumeration value="hard" />
+      <xs:enumeration value="extreme" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="copyto">
+    <xs:annotation>
+      <xs:documentation>
+        Comma-separated list of other stat names. Whenever a new value is assigned to this one, it is also assigned to the other stats
+        (usually this stat is savegame-based, while the copyto stats are account-based and have highest=&quot;true&quot;)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="copyto_div">
+    <xs:annotation>
+      <xs:documentation>
+        Optional divisor for the copyto stat. When a value is copied to the copyto stat, the stat value is divided by this number.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:positiveInteger" />
+  </xs:simpleType>
+
+  <!-- Achievement element -->
+
+  <xs:complexType name="achievement">
+    <xs:annotation>
+      <xs:documentation>
+        Declares the existence of a corresponding achievement that is unlocked when a certain stat value is reached. Multiple achievement definitions with different unlock values are possible.
+        The achievement requires account=&quot;true&quot; either for this stat or for a referenced copyto stat.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="progressstep" type="positiveInteger32">
+      <xs:annotation>
+        <xs:documentation>
+          Stat value at which achievement progress indication is displayed if the achievement is not unlocked yet. Multiples of this value will also indicate progress. (Optional, default is no indication)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="unlock" type="positiveInteger32" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Stat value at which the corresponding achievement is unlocked. For display/indication purposes only, not authoritative for actual unlocking.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <!-- Stat element -->
+
+  <xs:complexType name="stat">
+    <xs:annotation>
+      <xs:documentation>
+        Stat definition
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="achievement" type="achievement" />
+    </xs:sequence>
+
+    <xs:attribute name="id" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="name">
+      <xs:annotation>
+        <xs:documentation>
+          Localized name (TextDB reference). If not supplied then the stat is treated as hidden (not shown in menu).
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="units" type="units" />
+    <xs:attribute name="datatype" type="datatype" />
+    <xs:attribute name="fractional_digits" type="fractional_digits" />
+    <xs:attribute name="default" type="default" />
+    <xs:attribute name="format" type="format" />
+    <xs:attribute name="separators" type="separators" />
+    <xs:attribute name="secret" type="secret" />
+    <xs:attribute name="highest" type="highest" />
+    <xs:attribute name="account" type="account" />
+    <xs:attribute name="leaderboard" type="leaderboard" />
+    <xs:attribute name="mindifficulty" type="mindifficulty" />
+    <xs:attribute name="copyto" type="copyto" />
+    <xs:attribute name="copyto_div" type="copyto_div" />
+    <xs:attribute name="comment" type="comment" />
+  </xs:complexType>
+
+  <!-- Document element -->
+
+  <xs:element name="stats">
+    <xs:annotation>
+      <xs:documentation>
+        Document element of stats.xml
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="stat" type="stat" minOccurs="0" maxOccurs="unbounded">
+          <xs:unique name="achievement_unlock">
+            <xs:selector xpath="achievement" />
+            <xs:field xpath="@unlock" />
+          </xs:unique>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="stat_id">
+      <xs:selector xpath="stat" />
+      <xs:field xpath="@id" />
+    </xs:key>
+    <xs:unique name="stat_leaderboard">
+      <xs:selector xpath="stat" />
+      <xs:field xpath="@leaderboard" />
+    </xs:unique>
+  </xs:element>
+
+</xs:schema>

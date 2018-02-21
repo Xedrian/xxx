@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="Litauen_ShowBalance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+ <cues>
+   <cue name="ShowBalance" instantiate="yes" checkinterval="5s">
+
+     <!-- do not show on capital ship bridges for Capital Ship Bridge mod compatibility -->
+     <conditions>
+
+	<check_value value=" not ((player.ship) and (player.ship != player.primaryship))" />
+     </conditions>
+
+
+     <actions>
+       
+       <set_value name="$x" exact="player.money/1Cr"/>
+
+       <!-- some formating -->
+       <do_if value="$x lt 10000">
+         <set_value name="$out" exact="'%1'.[$x]"/>
+       </do_if>
+       <do_elseif value="$x lt 1000000">
+         <set_value name="$out" exact="'%1.%2k'.[$x/1000, $x%1000/100]"/>
+       </do_elseif>
+       <do_else>
+         <set_value name="$out" exact="'%1.%2M'.[$x/1000000, $x%1000000/100000]"/>
+       </do_else>
+
+        <!-- clean help queue to make sure it does not pile up when game lags -->
+       <remove_help all="true" />
+
+       <show_help position="20" duration="4.5s" custom="'%1 Cr'.[$out]" />
+
+     </actions>
+   </cue>
+ </cues>
+</mdscript>

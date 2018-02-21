@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<diff>
+	<add sel="//connections">
+		<connection name="Connection_npc06" tags="npc stand engineer">
+			<offset>
+				<position x="-1.649383" y="0.5521278" z="-3.667174"/>
+				<quaternion qx="-1.624975E-08" qy="0.9537169" qz="-5.215377E-09" qw="0.3007057"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc07" tags="npc stand">
+			<offset>
+				<position x="0.4392743" y="0" z="1.207269"/>
+				<quaternion qx="-1.624975E-08" qy="0.9537169" qz="-5.215377E-09" qw="0.3007057"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc08" tags="npc stand">
+			<offset>
+				<position x="0.521766" y="0.25432" z="-4.12589"/>
+				<quaternion qx="-1.624975E-08" qy="0.9537169" qz="-5.215377E-09" qw="0.3007057"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc09" tags="npc stand">
+			<offset>
+				<position x="-0.8220544" y="0.25432" z="-4.12589"/>
+				<quaternion qx="-1.624975E-08" qy="0.9537169" qz="-5.215377E-09" qw="0.3007057"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc10" tags="npc sit">
+			<offset>
+				<position x="-1.298904" y="-2.663374E-03" z="5.191173"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc11" tags="npc sit">
+			<offset>
+				<position x="0.201798" y="-2.663374E-03" z="5.00573"/>
+				<quaternion qx="8.561076E-09" qy="-0.7071068" qz="-1.382944E-08" qw="-0.7071067"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc12" tags="npc sit">
+			<offset>
+				<position x="0.201799" y="-2.663374E-03" z="4.00393"/>
+				<quaternion qx="8.561076E-09" qy="-0.7071068" qz="-1.382944E-08" qw="-0.7071067"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc13" tags="npc sit">
+			<offset>
+				<position x="-0.58399" y="-2.663374E-03" z="5.2636"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc14" tags="npc stand">
+			<offset>
+				<position x="0.452743" y="0" z="2.680169"/>
+				<quaternion qx="-1.624975E-08" qy="0.9537169" qz="-5.215377E-09" qw="0.3007057"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc15" tags="npc stand">
+			<offset>
+				<position x="-2.412231" y="-2.663374E-03" z="4.515189"/>
+				<quaternion qx="-7.565664E-09" qy="0.3826835" qz="1.69365E-08" qw="-0.9238795"/>
+			</offset>
+		</connection>
+		<connection name="Connection_npc16" tags="npc sit">
+			<offset>
+				<position x="-1.88179" y="-2.663374E-03" z="3.168573"/>
+			</offset>
+		</connection>
+	</add>
+</diff> 

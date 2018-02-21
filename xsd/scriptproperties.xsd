@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:simpleType name="name">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z_][A-Za-z0-9_]*" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="property">
+    <xs:annotation>
+      <xs:documentation>
+        Script property
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Property name as used in expressions
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="result" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Documentation of property result
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" type="name">
+      <xs:annotation>
+        <xs:documentation>
+          Datatype of the property result
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="import">
+    <xs:annotation>
+      <xs:documentation>
+        Import script properties from an XML or XSD file using XPath expressions
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="property">
+        <xs:annotation>
+          <xs:documentation>
+            Define how to import the properties
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attribute name="name" use="required">
+            <xs:annotation>
+              <xs:documentation>
+                XPath expression that locates the text node or attribute containing the property name
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="result">
+            <xs:annotation>
+              <xs:documentation>
+                XPath expression that locates the text node or attribute containing the result description
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="type">
+            <xs:annotation>
+              <xs:documentation>
+                Datatype of the property result
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ignoreprefix" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>
+                In case the located name contains dots, should the prefix (until the last dot) be ignored?
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+        <xs:keyref name="import_property_type" refer="type_name">
+          <xs:selector xpath="." />
+          <xs:field xpath="@type" />
+        </xs:keyref>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="source" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Name of the source XML file which contains the property data to be imported
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="select" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          XPath expression of property nodes in the imported file
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:group name="properties">
+    <xs:sequence>
+      <xs:element name="property" type="property" minOccurs="0" maxOccurs="unbounded">
+        <xs:keyref name="property_type" refer="type_name">
+          <xs:selector xpath="." />
+          <xs:field xpath="@type" />
+        </xs:keyref>
+      </xs:element>
+      <xs:element name="import" type="import" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+  </xs:group>
+
+  <xs:complexType name="keyword">
+    <xs:annotation>
+      <xs:documentation>
+        Definition of a script keyword that is a valid &quot;stand-alone&quot; expression
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="properties" />
+    <xs:attribute name="name" type="name" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Keyword name as used in expressions
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="description" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Keyword documentation
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" type="name">
+      <xs:annotation>
+        <xs:documentation>
+          Datatype of the keyword
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="script">
+      <xs:annotation>
+        <xs:documentation>
+          Type of script that supports this keyword (MD or AI script). Default is &quot;any&quot;
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="any" />
+          <xs:enumeration value="md" />
+          <xs:enumeration value="ai" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="datatype">
+    <xs:annotation>
+      <xs:documentation>
+        Definition of a real script data type, or a specialized/generalized value type for documentation purposes
+        (e.g. &quot;ship&quot; as specialization of &quot;component&quot;, or &quot;numeric&quot; as generalization of &quot;integer&quot; etc.)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="properties" />
+    <xs:attribute name="name" type="name" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique name for the datatype, that can be referenced in type attributes
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" type="name">
+      <xs:annotation>
+        <xs:documentation>
+          Base datatype of this datatype
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="suffix" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          The number suffix that denotes the default unit of the type. Only valid for numeric types.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="pseudo" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Is this a pseudo-datatype? Values of such types do not exist in the script system, they only exist to access further properties.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="textdb">
+    <xs:annotation>
+      <xs:documentation>
+        Provides a path to the TextDB XML file to support format string conversion of imported text strings
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="source" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Path to a TextDB XML file
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:element name="scriptproperties">
+    <xs:annotation>
+      <xs:documentation>
+        Documentation of keywords and properties in script expressions
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="textdb" type="textdb" minOccurs="0" maxOccurs="1" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="keyword" type="keyword">
+            <xs:keyref name="keyword_type" refer="type_name">
+              <xs:selector xpath="." />
+              <xs:field xpath="@type" />
+            </xs:keyref>
+            <xs:key name="keyword_property_name">
+              <xs:selector xpath="property" />
+              <xs:field xpath="@name" />
+            </xs:key>
+          </xs:element>
+          <xs:element name="datatype" type="datatype">
+            <xs:keyref name="datatype_base_type" refer="type_name">
+              <xs:selector xpath="." />
+              <xs:field xpath="@type" />
+            </xs:keyref>
+            <xs:key name="datatype_property_name">
+              <xs:selector xpath="property" />
+              <xs:field xpath="@name" />
+            </xs:key>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="type_name">
+      <xs:selector xpath="datatype" />
+      <xs:field xpath="@name" />
+    </xs:key>
+  </xs:element>
+
+</xs:schema>

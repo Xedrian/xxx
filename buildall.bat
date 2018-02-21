@@ -1,4 +1,6 @@
 
+php buildall.php
+
 
 cd aiscripts\src\
 php build.php
