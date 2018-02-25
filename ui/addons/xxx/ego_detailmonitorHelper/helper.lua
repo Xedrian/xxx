@@ -1,4 +1,3 @@
-
 Helper.colorStringDefault = "\x1bX"
 Helper.colorStringWhite = Helper.colorStringDefault
 Helper.colorStringRed = "\x1bR"

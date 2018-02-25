@@ -411,7 +411,7 @@ function override.addControlEntity(setup, entity, last)
 		if menu.isplayer and (not hasmoney or not hasrange) then
 			setup:addSimpleRow({
 				showShips and #ships and Helper.createButton(Helper.createButtonText(menu.extendedcategories["npcs" .. tostring(entity)] and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight) or "",
-				-- Helper.createIcon(typeicon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight),
+			-- Helper.createIcon(typeicon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight),
 				xxxLibrary.createNpcBookmarkIconButton(entity, menu.unlocked.operator_name),
 				typename .. " " .. Helper.unlockInfo(menu.unlocked.operator_name, name),
 				iscontrolentity and Helper.unlockInfo(menu.unlocked.operator_commands, aicommand) or Helper.getEmptyCellDescriptor(),
@@ -420,7 +420,7 @@ function override.addControlEntity(setup, entity, last)
 		else
 			setup:addSimpleRow({
 				showShips and #ships and Helper.createButton(Helper.createButtonText(menu.extendedcategories["npcs" .. tostring(entity)] and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight) or "",
-				-- Helper.createIcon(typeicon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight),
+			-- Helper.createIcon(typeicon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight),
 				xxxLibrary.createNpcBookmarkIconButton(entity, menu.unlocked.operator_name),
 				typename .. " " .. Helper.unlockInfo(menu.unlocked.operator_name, name),
 				iscontrolentity and Helper.unlockInfo(menu.unlocked.operator_commands, aicommand) or Helper.getEmptyCellDescriptor()
@@ -496,7 +496,7 @@ function override.createTableSelect()
 	menu.createSectionAmmunition(setup)
 	menu.createSectionPlayshipUpgrades(setup)
 	menu.createSectionStatistics(setup)
-	setup:addFillRows(18 - (menu.extendedcategories.tradequeue and #menu.data.tradequeue or 0), nil, { 6 })
+	setup:addFillRows(18 - (menu.extendedcategories.tradequeue and #menu.data.tradequeue or 0), nil, { 7 })
 	return setup:createCustomWidthTable({ Helper.standardTextHeight, Helper.standardTextHeight, 0, 250, menu.statusWidth, menu.statusWidth - Helper.standardTextHeight - 5, Helper.standardTextHeight }, false, false, true, 1, 2, 0, 0, 550, true, menu.settoprow, menu.setselectedrow)
 end
 
@@ -1134,15 +1134,21 @@ function override.createSectionStorage(setup)
 		-- text
 		table.insert(cols, storagetext)
 		table.insert(colsLayout, 2)
+
 		-- storage info (col:3)
 		table.insert(cols, Helper.createFontString(ReadText(1001, 1402) .. ReadText(1001, 120) .. " " .. Helper.estimateString(menu.type == "station" and estimated) .. (storageamount and Helper.unlockInfo(menu.unlocked.storage_amounts, ConvertIntegerString(storageamount, true, 4, true)) or "") .. (storagecapacity and " / " .. Helper.unlockInfo(menu.unlocked.storage_capacity, ConvertIntegerString(storagecapacity, true, 4, true)) or "") .. si_unit, false, "left"))
 
 		if not (menu.extendedcategories.storage or (menu.data.cargototal == 0)) then
 			table.insert(colsLayout, isPlayerAndStorageExceeded and 3 or 4)
 		else
-			table.insert(colsLayout, 2)
+			table.insert(colsLayout, 1)
+
 			-- cargo count text
-			table.insert(cols, Helper.createFontString(ReadText(1001, 20) .. (products and next(products) and " / " .. ReadText(1001, 1127) or ""), false, "right"))
+			table.insert(cols, Helper.createFontString(ReadText(1001, 20), false, "right"))
+			table.insert(colsLayout, 1)
+
+			-- cargo count text
+			table.insert(cols, Helper.createFontString((--[[products and next(products) and ]] ReadText(1001, 1127) or ""), false, "right"))
 			table.insert(colsLayout, isPlayerAndStorageExceeded and 1 or 2)
 		end
 
@@ -1156,8 +1162,6 @@ function override.createSectionStorage(setup)
 
 		-- expanded
 		if not ((not menu.extendedcategories.storage) or (menu.data.cargototal == 0)) then
-
-
 			local owner = GetComponentData(menu.object, "owner")
 			local zone = GetComponentData(menu.object, "zoneid")
 			local zoneowner = GetComponentData(zone, "owner")
@@ -1165,9 +1169,18 @@ function override.createSectionStorage(setup)
 				local name, icon = GetWareData(ware, "name", "icon")
 				local cycleamount = productcycleamounts[ware] and productcycleamounts[ware] + 1 or 0
 				local limit = 0
+				local isProdctionLimit = true
 				if menu.isplayer and menu.type ~= "block" then
 					limit = GetWareProductionLimit(menu.object, ware)
+					if limit == 0 then
+						isProdctionLimit = false
+						limit = GetWareCapacity(menu.object, ware)
+					end
 				end
+
+				debugVar(ware)
+				debugVar(limit)
+
 				local color = menu.white
 				if zoneowner and IsWareIllegalTo(ware, owner, zoneowner) then
 					color = menu.orange
@@ -1181,23 +1194,34 @@ function override.createSectionStorage(setup)
 				table.insert(cols, Helper.createButton(nil, Helper.createButtonIcon(icon, nil, 255, 255, 255, 100), false, menu.unlocked.storage_warelist))
 				table.insert(colsLayout, 1)
 				table.insert(cols, Helper.unlockInfo(menu.unlocked.storage_warelist, Helper.createFontString(name, false, "left", color.r, color.g, color.b, color.a)))
-				table.insert(colsLayout, 1)
+				table.insert(colsLayout, 2)
 
-				table.insert(cols, Helper.createFontString(Helper.estimateString(menu.type == "station" and estimated) .. Helper.unlockInfo(menu.unlocked.storage_amounts, ConvertIntegerString(amount, true, 4, true) .. (limit > 0 and " / " .. ConvertIntegerString(limit, true, 4, true) or "")), false, "right"))
-
-				local rowInfo
-
-				if menu.isplayer and next(products) and (GetWareCapacity(menu.object, ware, false) <= cycleamount or (limit - cycleamount) < amount) then
-					table.insert(colsLayout, 3)
-
-					table.insert(cols, Helper.createIcon("workshop_error", false, productcycleamounts[ware] and 255 or 196, productcycleamounts[ware] and 0 or 196, 0, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
-					table.insert(colsLayout, 1)
-					rowInfo = { "ware", productcycleamounts[ware] }
-				else
-					table.insert(colsLayout, 4)
+				local cargoSpaceColor = Helper.standardColor
+				if menu.isplayer and --[[ next(products) and]] (GetWareCapacity(menu.object, ware, false) <= cycleamount or (limit - cycleamount) < amount) and isProdctionLimit then
+					cargoSpaceColor = Helper.statusYellow
 				end
 
-				setup:addSimpleRow(cols, rowInfo, colsLayout)
+				table.insert(cols, Helper.createFontString(
+						Helper.estimateString(--[[menu.type == "station" and]] estimated) .. Helper.unlockInfo(menu.unlocked.storage_amounts, ConvertIntegerString(amount, true, 4, true)),
+						false, "right", cargoSpaceColor.r, cargoSpaceColor.g, cargoSpaceColor.b, cargoSpaceColor.a
+				))
+				table.insert(colsLayout, 1)
+
+				table.insert(cols, Helper.createFontString(
+						Helper.estimateString(--[[menu.type == "station" and]]  estimated) .. Helper.unlockInfo(menu.unlocked.storage_amounts, (limit > 0 and ConvertIntegerString(limit, true, 4, true) or "")),
+						false, "right", cargoSpaceColor.r, cargoSpaceColor.g, cargoSpaceColor.b, cargoSpaceColor.a
+				))
+
+				table.insert(colsLayout, 2)
+
+				--[[				if menu.isplayer and next(products) and (GetWareCapacity(menu.object, ware, false) <= cycleamount or (limit - cycleamount) < amount) then
+									table.insert(cols, Helper.createIcon("workshop_error", false, productcycleamounts[ware] and 255 or 196, productcycleamounts[ware] and 0 or 196, 0, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
+									table.insert(colsLayout, 1)
+								else
+									table.insert(colsLayout, 2)
+								end]]
+
+				setup:addSimpleRow(cols, { "ware", productcycleamounts[ware] }, colsLayout)
 
 				AddKnownItem("wares", ware)
 			end

@@ -33,8 +33,9 @@ function removeFilesFromDir($dir, $pattern = '~[A-z0-9-_]+\.xml$~')
  * @param $dir
  * @param $targetDir
  * @param $rootNode
+ * @param $isPatchFile
  */
-function buildFilesFromDir($dir, $targetDir, $rootNode)
+function buildFilesFromDir($dir, $targetDir, $rootNode, $isPatchFile = false)
 {
 	$outFiles = array();
 	if ($dh = opendir($dir)) {
@@ -80,7 +81,7 @@ function buildFilesFromDir($dir, $targetDir, $rootNode)
 		$dom->formatOutput = true;
 		$dom->loadXML('<' . $rootNode . '>' . implode('', $aXmlContents) . '</' . $rootNode . '>');
 		$formattedContent = $dom->saveXML();
-		setFileContent($targetDir . $targetFileName, $formattedContent);
+		setFileContent($targetDir . ($isPatchFile ? 'Patch_' : '') . $targetFileName, $formattedContent);
 	}
 }
 
@@ -114,11 +115,12 @@ function getFileContent($file)
  * @param string $rootNode
  * @param string $currentDir
  * @param string $targetDir
+ * @param bool $isPatchFile
  */
-function build($rootNode, $currentDir, $targetDir)
+function build($rootNode, $currentDir, $targetDir, $isPatchFile = false)
 {
 	echo "process folder: " . $targetDir . "\n";
 	wait();
 	removeFilesFromDir($targetDir);
-	buildFilesFromDir($currentDir, $targetDir, $rootNode);
+	buildFilesFromDir($currentDir, $targetDir, $rootNode, $isPatchFile);
 }

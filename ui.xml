@@ -8,18 +8,25 @@
 		<file name="ui/addons/xxx/xxx_lib/GlobalVars.lua"/>
 		<file name="ui/addons/xxx/xxx_lib/Library.lua"/>
 		<!-- xxx - modified menues -->
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_charprofile.lua"/>
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_crew.lua"/>
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_object.lua"/>
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_platforms.lua"/>
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_production.lua"/>
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_property.lua"/>
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_remotenpcs.lua"/>
-		<file name="ui/addons/xxx/ego_detailmonitor/menu_charprofile.lua"/>
-		<file name="ui/addons/xxx/ego_detailmonitor/menu_platforms.lua"/>
-		<file name="ui/addons/xxx/ego_detailmonitor/menu_crew.lua"/>
 		<!-- xxx - new menues-->
 		<file name="ui/addons/xxx/ego_detailmonitor/xxx_menu_bookmarks.lua"/>
+
 		<!-- Station_Production_Limiting -->
-		<file name="ui/addons/Station_Production_Limiting/production_menu_st_prod.lua"/>
-		<file name="ui/addons/Station_Production_Limiting/limit_menu_st_prod.lua"/>
 		<file name="ui/addons/Station_Production_Limiting/config_menu_st_prod.lua"/>
+		<file name="ui/addons/Station_Production_Limiting/limit_menu_st_prod.lua"/>
+		<!-- <file name="ui/addons/Station_Production_Limiting/production_menu_st_prod.lua"/> -->
+		<file name="ui/addons/xxx/Station_Production_Limiting/xxx-mod-production_menu_st_prod.lua"/>
+
+		<!-- Galaxy_Station_Range -->
+		<!-- <file name="ui/addons/Galaxy_Station_Range/menu_orders.lua" /> -->
+		<file name="ui/addons/xxx/Galaxy_Station_Range/xxx-mod-menu_orders.lua"/>
 		<!-- deps -->
 		<dependency name="ego_detailmonitor"/>
 	</environment>

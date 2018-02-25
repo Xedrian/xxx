@@ -189,10 +189,8 @@ function overrideFuncs.display(firsttime)
 end
 
 function overrideFuncs.addContainerRow(setup, component, iteration, subordinatewarning)
-
-	local isStation = IsComponentClass(component, "station")
-	local isShip = IsComponentClass(component, "ship")
-
+	local isStation = xxxLibrary.isStation(component)
+	local isShip = xxxLibrary.isShip(component)
 	local isConstructionVesselAttached = (not isStation) and (GetBuildAnchor(component) ~= nil)
 
 	local subordinates = xxxLibrary.getSubordinates(component)
@@ -371,7 +369,7 @@ function overrideFuncs.addContainerRow(setup, component, iteration, subordinatew
 			sCargoText = sCargoText .. " / "
 
 			sCargoText = sCargoText .. ConvertIntegerString(storage.capacity, true, 4, true)
-			sCargoText = sCargoText .. " " .. ReadText(1001, 110)
+			-- sCargoText = sCargoText .. " " .. ReadText(1001, 110)
 
 			-- tmp cargo text to adjust last col width to required min
 			-- sCargoText = "100% / 99.999 k m³"
@@ -437,7 +435,7 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 
 	-- 5: (ships only) Fuel / Drones
 	-- 6: storage capacity
-	local itemStorageCapacity = (menu.mode == "sellship") and ReadText(1001, 2808) or ReadText(20180212, 1001)
+	local itemStorageCapacity = (menu.mode == "sellship") and ReadText(1001, 2808) or ReadText(20180212, 1001) .. " " .. ReadText(1001, 110)
 	-- ### build header data ### --
 	if addheader then
 		if name == "ships" then

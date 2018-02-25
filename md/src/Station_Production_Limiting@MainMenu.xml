@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff>
 	<!--	MainMenu - around line 200 replace call to ProductionMenu with StationProduction_ProductionMenu  -->
+	<!-- disabled by xxx # xxx only overrides some function from original menu and add hooks to provide additional rows # so no need replace the whole menu
 	<replace sel="/mdscript[@name='MainMenu']['201 hook in Station_Production']/cues/cue[@name='SectionHandler']/actions/do_elseif[@value=&quot;event.param == 'gMain_objectProduction'&quot;]/open_conversation_menu[@menu='ProductionMenu']">
 		<open_conversation_menu menu="Station_Production" param="event.param2" param2="event.param3"/>
 	</replace>
+	-->
 
 	<!--	Section handling, etc	-->
 	<add sel="//cue[@name='SectionHandler']['hook in Station_Prod_Limit']/actions">
@@ -19,8 +21,8 @@
 		</do_elseif>
 	</add>
 
-	<!--  <add sel="//cue[@name='SectionHandler']['hook in Station_Prod_Config']/actions">
+	<add sel="//cue[@name='SectionHandler']['hook in Station_Prod_Config']/actions">
 		<signal_cue_instantly cue="md.Debugging.DumpParams" param="[event.param, event.param2, event.param3]"/>
-	  </add>
-	-->
+	</add>
+
 </diff>

@@ -13,7 +13,7 @@ $currentDir = dirname(__FILE__) . '/';
 foreach ($buildData as $folderName => $nodeName) {
 	$sourceDir = $currentDir . $folderName . '/src/';
 	$targetDir = $currentDir . $folderName . '/';
-	build($nodeName, $sourceDir, $targetDir);
+	build($nodeName, $sourceDir, $targetDir, false);
 	copyFiles($sourceDir . 'add/', $targetDir);
 }
 

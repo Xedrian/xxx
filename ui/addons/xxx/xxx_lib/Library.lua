@@ -1,6 +1,34 @@
+-- ffi setup
+local ffi = require("ffi")
+local C = ffi.C
+ffi.cdef [[
+	typedef uint64_t UniverseID;
+	typedef struct {
+    	const char* name;
+    	float hull;
+    	float shield;
+    	bool hasShield;
+	} ComponentDetails;
+	UniverseID GetPlayerID(void);
+	UniverseID GetPlayerCoPilotID(void);
+	UniverseID GetPlayerComputerID(void);
+	UniverseID GetPlayerObjectID(void);
+	UniverseID GetPlayerShipID(void);
+	ComponentDetails GetComponentDetails(const UniverseID componentid);
+	bool IsShip(const UniverseID componentid);
+	bool IsStation(const UniverseID componentid);
+]]
+
+
 xxxLibrary = {}
 
-local thisPlayerEntity
+function xxxLibrary.isStation(compontent)
+	return C.IsStation(ConvertStringTo64Bit(tostring(compontent)));
+end
+
+function xxxLibrary.isShip(component)
+	return C.IsShip(ConvertStringTo64Bit(tostring(component)));
+end
 
 function xxxLibrary.getColorStringForComponent(component)
 	local retString = ""
@@ -83,15 +111,7 @@ function xxxLibrary.createNpcBookmarkIconButton(npc, getButtonForTrueOrIconForFa
 end
 
 function xxxLibrary.getPlayerEntity()
-
-	if thisPlayerEntity == nil then
-
-		local playerShipId = GetPlayerPrimaryShipID()
-		local playerShipControlEntity = GetComponentData(playerShipId, "controlentity") -- this is ren
-		local name, uiname = GetComponentData(playerShipControlEntity, "name", "uiname")
-		thisPlayerEntity = playerShipControlEntity
-	end
-	return thisPlayerEntity
+	return ConvertStringTo64Bit(tostring(C.GetPlayerID()))
 end
 
 function xxxLibrary.getBookmarks()
@@ -386,7 +406,14 @@ function xxxLibrary.fetchDamageIndicator(compontent)
 	local damageIndicator = 0
 	local damageColor = Helper.colorStringDefault
 	local damageText = ''
-	local hullPercent, shieldPercent, shieldMax = GetComponentData(compontent, "hullpercent", "shieldpercent", "shieldmax")
+
+	-- local hullPercent, shieldPercent, shieldMax = GetComponentData(compontent, "hullpercent", "shieldpercent", "shieldmax")
+	local cDetail = C.GetComponentDetails(ConvertIDTo64Bit(compontent));
+	local hullPercent = cDetail.hull;
+	local shieldPercent = cDetail.shield;
+	local shieldMax = cDetail.hasShield and 100 or 0;
+	-- DebugError(cDetail.hull .. "|" .. cDetail.shield .. "|" .. (cDetail.hasShield and "1" or "0"));
+
 	if (hullPercent <= 70) and (shieldMax > 0 and shieldPercent <= 10 or shieldMax == 0) then -- if (shields <= 10% or no shields at all) and hull is damaged @70%
 		if hullPercent <= 45 then
 			damageIndicator = 3
@@ -550,6 +577,7 @@ function xxxLibrary.colorizeDroneCount(count, aiCommandRaw, isSmallCollectorShip
 	local coloredString = "" .. count -- uncolored so far
 
 	local chooseColor = Helper.colorStringRed -- default color is red (IF: min-values are set to > 0)
+
 	local minForYellow = 0
 	local minForGreen = 0
 
