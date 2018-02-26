@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- created by MIB -->
 <diff>
-	<replace sel="/mdscript[@name='Upkeep']/cues/cue[@name='Acquire_Control_Entity_Start']/cues/library[@name='Acquire_Control_Entity_Description']/actions/do_elseif[@exact='entitytype.engineer']">
+	<replace sel="/mdscript[@name='Upkeep']/cues/cue[@name='Acquire_Control_Entity_Start']/cues/library[@name='Acquire_Control_Entity_Description']/actions/do_elseif[@exact='entitytype.engineer']" >
 		<do_elseif value="$EntityType" exact="entitytype.engineer">
 			<do_if value="$Object.isclass.ship">
 				<set_value name="$DescriptionID" exact="401"/>

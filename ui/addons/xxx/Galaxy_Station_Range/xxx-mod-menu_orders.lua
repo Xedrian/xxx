@@ -408,7 +408,7 @@ function Funcs.yvgstr_displayMenu()
 			end
 			setup:addSimpleRow({
 				ReadText(1001, 4212),
-				subordinaterangecomponenttype .. ReadText(1001, 120) .. " " .. GetComponentData(menu.subordinaterangecomponent, "name")
+				subordinaterangecomponenttype .. (not IsComponentClass(menu.subordinaterangecomponent, "galaxy") and ReadText(1001, 120) .. " " .. GetComponentData(menu.subordinaterangecomponent, "name") or "")
 			}, "subordinaterange", { 3, 1 })
 		end
 

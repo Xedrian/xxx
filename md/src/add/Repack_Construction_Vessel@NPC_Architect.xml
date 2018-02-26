@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- created by MIB -->
+<diff>
+	<add sel="/mdscript[@name='NPC_Architect']/cues/cue[@name='Base']/cues/cue[@name='DefaultComm']/actions/do_else/do_if[@value='$actor.isplayerowned and $actor.container.buildmodule.exists']/do_else" >
+		<do_if value="not $actor.ship.buildmodule.isbuilding and not @$obstructioncheck">
+			<add_player_choice_sub text="{900000,15101}" position="bottom_left" section="cArch_RCV_detachfromstation" comment="Detach from station"/>
+		</do_if>
+	</add>
+
+	<add sel="/mdscript[@name='NPC_Architect']/cues/cue[@name='Base']/cues/cue[@name='SectionHandler']/actions/do_else" pos="before">
+		<do_elseif value="event.param == 'cArch_RCV_detachfromstation'">
+			<!--confirmation-->
+			<add_npc_line line="[1012, 1013].random" />
+			<clear_buildmodule buildmodule="$BuildModule" />
+			<remove_value name="$station" />
+			<remove_value name="$obstructioncheck" />
+			<remove_blocked_area blocker="$actor" zone="$actor.zone" />
+			<disconnect_from_build_location object="$actor.container" />
+			<reset_cue cue="MoveBuilderShip" />
+			<reset_cue cue="DeployToStation" />
+			<reset_cue cue="DroneOfferHandlerWait" />
+			<reset_cue cue="BuildFinished_Wait" />
+			<add_to_player_squad object="$actor.container" />
+			<start_script object="$actor.ship.pilot" name="'player.default'" />
+		</do_elseif>
+	</add>
+</diff>

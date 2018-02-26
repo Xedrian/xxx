@@ -9,6 +9,11 @@ ffi.cdef [[
     	float shield;
     	bool hasShield;
 	} ComponentDetails;
+	typedef struct {
+		int64_t trade;
+		int64_t defence;
+		int64_t missile;
+	} SupplyBudget;
 	UniverseID GetPlayerID(void);
 	UniverseID GetPlayerCoPilotID(void);
 	UniverseID GetPlayerComputerID(void);
@@ -17,8 +22,8 @@ ffi.cdef [[
 	ComponentDetails GetComponentDetails(const UniverseID componentid);
 	bool IsShip(const UniverseID componentid);
 	bool IsStation(const UniverseID componentid);
+	SupplyBudget GetSupplyBudget(UniverseID containerid);
 ]]
-
 
 xxxLibrary = {}
 
@@ -229,7 +234,10 @@ function xxxLibrary.hasObjectWarningSplit(object)
 			error = error > 1 and error or 2
 		elseif hasmanager then
 			if not traderestrictions.faction then
-				if GetComponentData(hasmanager, "productionmoney") > GetAccountData(hasmanager, "money") then
+				local wantedmoney = GetComponentData(hasmanager, "productionmoney")
+				local supplybudget = C.GetSupplyBudget(ConvertIDTo64Bit(object))
+				wantedmoney = wantedmoney + tonumber(supplybudget.trade) / 100 + tonumber(supplybudget.defence) / 100 + tonumber(supplybudget.missile) / 100
+				if wantedmoney > GetAccountData(hasmanager, "money") then
 					-- not enough money
 					creditWarning = creditWarning > 0 and 2 or 1
 				end
@@ -350,8 +358,8 @@ function xxxLibrary.componentPostfixName(component)
 	if isShip and (not GetBuildAnchor(component)) then
 		local numtrips = GetComponentData(component, "numtrips")
 		if numtrips > 0 then
-			menu.tripheader = true
-			sPostfix = sPostfix .. " (" .. numtrips .. "/" .. menu.maxtrips .. ")"
+			local maxtrips = (PlayerPrimaryShipHasContents("trademk3") and 7) or (PlayerPrimaryShipHasContents("trademk2") and 5) or 3
+			sPostfix = sPostfix .. " (" .. numtrips .. "/" .. maxtrips .. ")"
 		end
 	end
 
@@ -414,7 +422,8 @@ function xxxLibrary.fetchDamageIndicator(compontent)
 	local shieldMax = cDetail.hasShield and 100 or 0;
 	-- DebugError(cDetail.hull .. "|" .. cDetail.shield .. "|" .. (cDetail.hasShield and "1" or "0"));
 
-	if (hullPercent <= 70) and (shieldMax > 0 and shieldPercent <= 10 or shieldMax == 0) then -- if (shields <= 10% or no shields at all) and hull is damaged @70%
+	if (hullPercent <= 70) and (shieldMax > 0 and shieldPercent <= 10 or shieldMax == 0) then
+		-- if (shields <= 10% or no shields at all) and hull is damaged @70%
 		if hullPercent <= 45 then
 			damageIndicator = 3
 			damageColor = Helper.colorStringRed
@@ -440,18 +449,23 @@ function xxxLibrary.fetchComponentCrewSkills(component)
 
 	local threeStarContent
 	local threeStarContentText = ""
-	local threeStarItems = { "controlentity", "engineer", "defencenpc" }
+	local threeStarItems = { "tradenpc", "engineer", "defencenpc" }
+
+	if xxxLibrary.isShip(component) then
+		threeStarItems = { "pilot", "engineer", "defencenpc" }
+	end
 
 	local macro = GetComponentData(component, "macro")
 
-	if string.match(macro, "units_size_m_") then
+	if string.match(macro, "units_size_m_") or string.match(macro, "units_size_s_") then
 		-- if small ship, we have only controlentity/pilot
-		threeStarItems = { "controlentity" }
+		threeStarItems = { "pilot" }
 	end
 
-
 	local npcDataAll = {
-		controlentity = { exists = false, skill = 0, name = "" }, -- manager or captain or pilot
+	-- controlentity = { exists = false, skill = 0, name = "" }, -- manager or captain or pilot
+		tradenpc = { exists = false, skill = 0, name = "" },
+		pilot = { exists = false, skill = 0, name = "" },
 		engineer = { exists = false, skill = 0, name = "" },
 		defencenpc = { exists = false, skill = 0, name = "" },
 	}
@@ -500,10 +514,12 @@ function xxxLibrary.fetchStationBuildingStatus(component)
 		local upgrades = GetAllUpgrades(component, true)
 		local upgradesTotal = upgrades.totaltotal
 		local upgradesOperational = upgrades.totaloperational -- does this include destroy upgrades (which can be repaired by technican) ??
-
+		local factorUpgradeImportance = 4
 		local totalBuildState
 		if upgradesTotal > 0 then
-			totalBuildState = math.floor((stageCountDone + (upgradesOperational / upgradesTotal)) / (stageCount + 1) * 100)
+			totalBuildState = math.floor(
+					(stageCountDone + (upgradesOperational / upgradesTotal * factorUpgradeImportance)) /
+							(stageCount + 1 * factorUpgradeImportance) * 100)
 		else
 			totalBuildState = math.floor(stageCountDone / stageCount * 100)
 		end
@@ -517,10 +533,10 @@ function xxxLibrary.fetchStationBuildingStatus(component)
 
 		local upgradeState = 100
 		if upgradesTotal > 0 then
-			local upgradeState = math.floor(upgradesOperational / upgradesTotal * 100)
+			upgradeState = math.floor(upgradesOperational / upgradesTotal * 100)
 		end
 
-		if upgradeState == 100 and stageCount == stageCountDone and not (curprogress) then
+		if (upgradeState == 100) and (stageCount == stageCountDone) and (curprogress == nil) then
 			ret = Helper.colorStringCyan .. ReadText(20180212, 1002)
 			completed = true
 		end
@@ -568,7 +584,6 @@ function xxxLibrary.fetchDroneInfo(component, isSmallCollectorShip)
 		end
 	end
 
-
 	return relevantDroneCount, icon
 end
 
@@ -591,7 +606,8 @@ function xxxLibrary.colorizeDroneCount(count, aiCommandRaw, isSmallCollectorShip
 		minForGreen = minForYellow * 2
 	elseif aiCommandRaw == "mining" then
 		-- plz adjust this
-		if isSmallCollectorShip then -- small collector can only take 3 drones so: 1=red, 2=yellow, 3=green
+		if isSmallCollectorShip then
+			-- small collector can only take 3 drones so: 1=red, 2=yellow, 3=green
 			minForYellow = 2
 			minForGreen = 3
 		else

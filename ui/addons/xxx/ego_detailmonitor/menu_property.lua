@@ -116,7 +116,7 @@ function overrideFuncs.display(firsttime)
 		Helper.standardTextHeight, -- col 2: checkbox
 		0, -- col 3:  name => autosize columns
 
-		-- HINT if ship has no jump drive cols 4+5 will be 6+7
+	-- HINT if ship has no jump drive cols 4+5 will be 6+7
 		Helper.standardTextHeight, -- col 4: drone info icon
 		42, -- col 5: drone count text (width needs to fit max "999")
 
@@ -128,7 +128,7 @@ function overrideFuncs.display(firsttime)
 		Helper.standardTextHeight, -- col 9:  warning-icon
 		138 -- col 10:  cargo / sellprice
 
-		-- more then 10 cols are not ALLOWED by GUI!
+	-- more then 10 cols are not ALLOWED by GUI!
 	}
 
 	menu.selectColsCount = table.getLength(selectTableWidths)
@@ -191,7 +191,10 @@ end
 function overrideFuncs.addContainerRow(setup, component, iteration, subordinatewarning)
 	local isStation = xxxLibrary.isStation(component)
 	local isShip = xxxLibrary.isShip(component)
-	local isConstructionVesselAttached = (not isStation) and (GetBuildAnchor(component) ~= nil)
+	local buildAnchor = GetBuildAnchor(component)
+	local isConstructionVesselAttached = (not isStation) and (buildAnchor ~= nil)
+
+	menu.tripheader = menu.tripheader or (isShip and (not buildAnchor) and (GetComponentData(component, "numtrips") > 0))
 
 	local subordinates = xxxLibrary.getSubordinates(component)
 
@@ -294,7 +297,8 @@ function overrideFuncs.addContainerRow(setup, component, iteration, subordinatew
 
 		local hasDrones = relevantDroneCount ~= nil and relevantDroneCount ~= "0"
 
-		if hasDrones then -- if drone count is "0" and not colorized we assume it should not be displayed
+		if hasDrones then
+			-- if drone count is "0" and not colorized we assume it should not be displayed
 			-- drone info
 			table.insert(columns, Helper.createIcon(icon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
 			table.insert(columnSetup, 1)
@@ -321,7 +325,8 @@ function overrideFuncs.addContainerRow(setup, component, iteration, subordinatew
 			table.insert(columnSetup, 1)
 			nameColumnColSpan = nameColumnColSpan - 1
 		else
-			if hasDrones then -- if ship has drones but no jump create a 2col empty block to align up to the rest
+			if hasDrones then
+				-- if ship has drones but no jump create a 2col empty block to align up to the rest
 				table.insert(columns, "")
 				table.insert(columnSetup, 2)
 				nameColumnColSpan = nameColumnColSpan - 2
@@ -447,7 +452,13 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 				Helper.createFontString(itemStorageCapacity, false, "right")
 			}, nil, { 1, 1, menu.selectColsCount - 5, 1, 2 }, false, Helper.defaultHeaderBackgroundColor)
 		else
-			setup:addSimpleRow({ itemExpandCollapse, itemCheckbox, header }, nil, { 1, 1, menu.selectColsCount - 2 }, false, Helper.defaultHeaderBackgroundColor)
+			setup:addSimpleRow({
+				itemExpandCollapse,
+				itemCheckbox,
+				header,
+				Helper.createFontString(ReadText(20180212, 1000), false, "center"),
+				Helper.createFontString(itemStorageCapacity, false, "right")
+			}, nil, { 1, 1, menu.selectColsCount - 5, 1, 2 }, false, Helper.defaultHeaderBackgroundColor)
 		end
 	else
 		setup:addSimpleRow({ itemExpandCollapse, itemCheckbox, header }, nil, { 1, 1, menu.selectColsCount - 2 }, false, Helper.defaultHeaderBackgroundColor)
@@ -526,10 +537,8 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 					local grpIsExpanded = menu.extendedcategories[grpIdentifier]
 					setup:addSimpleRow({
 						Helper.createButton(Helper.createButtonText(grpIsExpanded and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight, choosenColor),
-						menu.sortedStationsByClusterAndSector[grpIdentifier].cluster .. " - " .. menu.sortedStationsByClusterAndSector[grpIdentifier].sector,
-						Helper.createFontString(ReadText(20180212, 1000), false, "center"),
-						Helper.createFontString(itemStorageCapacity, false, "right")
-					}, nil, { 1, menu.selectColsCount - 4, 1, 2 }, false, Helper.defaultHeaderBackgroundColor)
+						menu.sortedStationsByClusterAndSector[grpIdentifier].cluster .. " - " .. menu.sortedStationsByClusterAndSector[grpIdentifier].sector .. " (" .. (#menu.sortedStationsByClusterAndSector[grpIdentifier].subordinates) .. " " .. ReadText(1001, 4) .. ")"
+					}, nil, { 1, menu.selectColsCount - 1 }, false)
 					if grpIsExpanded then
 						for _, subordinate in ipairs(menu.sortedStationsByClusterAndSector[grpIdentifier].subordinates) do
 							menu.addContainerRow(setup, subordinate, 0, false)
@@ -569,7 +578,9 @@ function overrideFuncs.setButtonsForSection(name, array, offsetrow)
 					local grpIsExpanded = menu.extendedcategories[grpIdentifier]
 
 					local clusterSectorRow = nooflines
-					Helper.setButtonScript(menu, nil, menu.selecttable, nooflines, 1, function() return menu.buttonExtend(grpIdentifier, clusterSectorRow) end)
+					Helper.setButtonScript(menu, nil, menu.selecttable, nooflines, 1, function()
+						return menu.buttonExtend(grpIdentifier, clusterSectorRow)
+					end)
 
 					nooflines = nooflines + 1
 					if grpIsExpanded then

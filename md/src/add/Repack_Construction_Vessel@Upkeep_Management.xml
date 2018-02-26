@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- created by MIB -->
 <diff>
-	<add sel="/mdscript[@name='Upkeep_Management']/cues/library[@name='CheckObject']/actions/do_if/do_if/do_if[@value='md.$AllowMultiMissions or not @$HasMission']/do_all/do_elseif[@value='$Object.isclass.station']">
+	<add sel="/mdscript[@name='Upkeep_Management']/cues/library[@name='CheckObject']/actions/do_if/do_if/do_if[@value='md.$AllowMultiMissions or not @$HasMission']/do_all/do_elseif[@value='$Object.isclass.station']" >
 		<do_if value="not $Object.engineer">
 			<signal_cue_instantly cue="md.Upkeep.Acquire_Control_Entity_Start" param="[null, $Object, entitytype.engineer]"/>
 			<include_actions ref="PostMissionAddedActions"/>

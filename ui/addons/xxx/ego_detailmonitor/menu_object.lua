@@ -259,6 +259,9 @@ function override.onRowChanged(row, rowdata)
 				elseif rowdata[2] == 1 then
 					override = true
 					Helper.updateCellText(menu.selecttable, 2, 1, menu.infotext .. " - \27Y" .. ReadText(1001, 1124) .. "\27X")
+				else
+					override = true
+					Helper.updateCellText(menu.selecttable, 2, 1, menu.infotext .. "\27X")
 				end
 			elseif rowdata[1] == "ware" then
 				if rowdata[2] then
@@ -369,6 +372,17 @@ function override.addControlEntity(setup, entity, last)
 
 		if menu.isplayer then
 			if typestring == "manager" or typestring == "architect" then
+
+				local buildingmodule = GetComponentData(entity, "buildingmodule")
+				local buildingarchitect
+				local buildingcontainer
+				if buildingmodule then
+					buildingcontainer = GetContextByClass(buildingmodule, "container")
+					if buildingcontainer then
+						buildingarchitect = GetComponentData(buildingcontainer, "architect")
+					end
+				end
+
 				if IsSameComponent(entity, buildingarchitect) then
 					local buildingtraderestrictions = GetTradeRestrictions(buildingcontainer)
 					if not buildingtraderestrictions.faction then
@@ -386,7 +400,7 @@ function override.addControlEntity(setup, entity, last)
 						local supplybudget = C.GetSupplyBudget(ConvertIDTo64Bit(menu.object))
 						wantedmoney = wantedmoney + tonumber(supplybudget.trade) / 100 + tonumber(supplybudget.defence) / 100 + tonumber(supplybudget.missile) / 100
 					end
-					if not menu.traderestrictions.faction then
+					if (not menu.traderestrictions.faction) or (typestring == "architect") then
 						if wantedmoney > GetAccountData(entity, "money") then
 							hasmoney = false
 							noMoneyState = noMoneyState + 1
@@ -408,7 +422,8 @@ function override.addControlEntity(setup, entity, last)
 				end
 			end
 		end
-		if menu.isplayer and (not hasmoney or not hasrange) then
+
+		if menu.isplayer and (noMoneyState > 0 or (not hasrange)) then
 			setup:addSimpleRow({
 				showShips and #ships and Helper.createButton(Helper.createButtonText(menu.extendedcategories["npcs" .. tostring(entity)] and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight) or "",
 			-- Helper.createIcon(typeicon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight),
@@ -1177,9 +1192,6 @@ function override.createSectionStorage(setup)
 						limit = GetWareCapacity(menu.object, ware)
 					end
 				end
-
-				debugVar(ware)
-				debugVar(limit)
 
 				local color = menu.white
 				if zoneowner and IsWareIllegalTo(ware, owner, zoneowner) then

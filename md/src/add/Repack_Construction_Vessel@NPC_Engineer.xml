@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- created by MIB -->
+<diff>
+	<replace sel="/mdscript[@name='NPC_Engineer']/cues/cue[@name='OnPlatformPopulation_Engineer']/cues/cue[@name='OnBoardComm']/actions/do_if[@value='@player.platform.container.isplayerowned and @player.platform.container.isclass.ship']/@value" >@player.platform.container.isplayerowned</replace>
+
+	<replace sel="/mdscript[@name='NPC_Engineer']/cues/cue[@name='OnPlatformPopulation_Engineer']/cues/cue[@name='OnBoardComm']/actions/do_elseif[@value='not player.platform']/add_player_choice[@text='{1002,3008}']/@choiceparam" >[0, 0, 'zone', player.primaryship.zone, null, null, 'selectplayerobject', ['cEngineer_worksomewhere_objectselected', null, null, true, false, false, false, true]]</replace>
+</diff>
