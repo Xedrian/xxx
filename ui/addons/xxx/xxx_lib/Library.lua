@@ -490,6 +490,42 @@ function xxxLibrary.fetchComponentCrewSkills(component)
 	return threeStarContent
 end
 
+function xxxLibrary.internalGetSequenceAndStage(buildtree, seqInfo)
+	if seqInfo.seqidx == 0 then
+		return "", 0
+	elseif seqInfo.stageidx == 0 then
+		return buildtree[seqInfo.seqidx].sequence, 0
+	elseif seqInfo.seqidx then
+		return buildtree[seqInfo.seqidx].sequence, buildtree[seqInfo.seqidx][seqInfo.stageidx].stage
+	end
+end
+
+function xxxLibrary.internalGetBuildStatus(buildtree, cursequence, curstage, seqInfo)
+	local sequence, stage = xxxLibrary.internalGetSequenceAndStage(buildtree, seqInfo)
+	local buildingState
+	if sequence and stage then
+		if cursequence and cursequence == sequence and curstage == stage then
+			-- currently building this stage
+			buildingState = 0
+		elseif sequence == "" and stage == 0 then
+			-- base module done (base module is always either "building" or "done")
+			buildingState = 1
+		elseif buildtree[seqInfo.seqidx][seqInfo.stageidx].stage <= buildtree[seqInfo.seqidx].currentstage then
+			buildingState = 1
+		elseif not cursequence and (seqInfo.stageidx == 1 or buildtree[seqInfo.seqidx][seqInfo.stageidx - 1].stage == buildtree[seqInfo.seqidx].currentstage) then
+			-- available (not currently building, stage is the first one not built in this sequence)
+			buildingState = 0
+		else
+			-- not built and not available yet
+			buildingState = 0
+		end
+		return buildingState
+	end
+end
+
+
+
+-- for stations only!
 function xxxLibrary.fetchStationBuildingStatus(component)
 
 	local ret = ""
@@ -498,31 +534,55 @@ function xxxLibrary.fetchStationBuildingStatus(component)
 	local buildingmodule = GetComponentData(component, "buildingmodule")
 	if buildingmodule then
 		local buildtree = GetBuildTree(component)
+
+		local debug = false
+
+		if string.find(GetComponentData(component, "name"), "Mil") or string.find(GetComponentData(component, "name"), "Metallschmiede I") then
+			-- debugVar("Tree of Mil")
+			-- debugVar(buildtree)
+			-- debugVar("End: Tree of Mil")
+			debug = true
+			DebugError(GetComponentData(component, "name"))
+		end
+
+		local upgradeImportance = 0.5 -- without upgrades a stage is only complete to 70% (with ALL upgrades => 100%)
+		local upgradeCompletionFactor
+		local upgradeTable = GetBuildStageUpgrades(component, "", 0, true)
+		if upgradeTable.totaltotal > 0 then
+			if debug then
+				DebugError(upgradeTable.totaloperational .. "/" .. upgradeTable.totaltotal)
+			end
+			upgradeCompletionFactor = upgradeTable.totaloperational / upgradeTable.totaltotal
+		else
+			upgradeCompletionFactor = 1
+		end
+		local stageCount = 1 -- base stage is not in buildtree .. wtf?!
+		local stageCountDone = (1 - upgradeImportance) + (upgradeImportance * upgradeCompletionFactor) -- base stage should be always done
+
+
 		local cursequence, curstage, curprogress = GetCurrentBuildSlot(component)
-		local stageCount = 0
-		local stageCountDone = 0
 		for seqidx, seqdata in ipairs(buildtree) do
 			for stageidx, stagedata in ipairs(seqdata) do
 				stageCount = stageCount + 1
-				local currentStageDone = buildtree[seqidx][stageidx].stage <= buildtree[seqidx].currentstage
-				if currentStageDone then
-					stageCountDone = stageCountDone + 1
+				local seqInfo = { seqidx = seqidx, stageidx = stageidx }
+				if xxxLibrary.internalGetBuildStatus(buildtree, cursequence, curstage, seqInfo) == 1 then
+					upgradeTable = GetBuildStageUpgrades(component, seqidx, stageidx, true)
+					if upgradeTable.totaltotal > 0 then
+						upgradeCompletionFactor = upgradeTable.totaloperational / upgradeTable.totaltotal
+					else
+						upgradeCompletionFactor = 1
+					end
+					-- we count a stage only to (1-upgradeImportance)% done if no upgrades were selected; 100% done if all upgrades for this stage are build
+					stageCountDone = stageCountDone + (1 - upgradeImportance) + (upgradeImportance * upgradeCompletionFactor)
 				end
 			end
 		end
 
-		local upgrades = GetAllUpgrades(component, true)
-		local upgradesTotal = upgrades.totaltotal
-		local upgradesOperational = upgrades.totaloperational -- does this include destroy upgrades (which can be repaired by technican) ??
-		local factorUpgradeImportance = 4
-		local totalBuildState
-		if upgradesTotal > 0 then
-			totalBuildState = math.floor(
-					(stageCountDone + (upgradesOperational / upgradesTotal * factorUpgradeImportance)) /
-							(stageCount + 1 * factorUpgradeImportance) * 100)
-		else
-			totalBuildState = math.floor(stageCountDone / stageCount * 100)
+		if debug then
+			DebugError("Count-Stages: " .. stageCount .. " - Stage-Done:" .. stageCountDone)
 		end
+
+		local totalBuildState = math.floor(stageCountDone / stageCount * 100)
 		totalBuildState = string.format("%d%%", totalBuildState)
 
 		if curprogress then
@@ -531,12 +591,7 @@ function xxxLibrary.fetchStationBuildingStatus(component)
 			ret = Helper.colorStringGreen .. " + / " .. totalBuildState
 		end
 
-		local upgradeState = 100
-		if upgradesTotal > 0 then
-			upgradeState = math.floor(upgradesOperational / upgradesTotal * 100)
-		end
-
-		if (upgradeState == 100) and (stageCount == stageCountDone) and (curprogress == nil) then
+		if (stageCount == stageCountDone) and (curprogress == nil) then
 			ret = Helper.colorStringCyan .. ReadText(20180212, 1002)
 			completed = true
 		end

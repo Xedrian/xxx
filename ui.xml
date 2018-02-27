@@ -15,6 +15,11 @@
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_production.lua"/>
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_property.lua"/>
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_remotenpcs.lua"/>
+
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_build_select_upgrades.lua"/>
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_buildcost.lua"/>
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_buildermacros.lua"/>
+
 		<!-- xxx - new menues-->
 		<file name="ui/addons/xxx/ego_detailmonitor/xxx_menu_bookmarks.lua"/>
 

@@ -87,13 +87,12 @@ function menu.displayMenu()
 	setup:addTitleRow({ Helper.getEmptyCellDescriptor() })
 	local infodesc = setup:createCustomWidthTable({ 0 }, false, false, true, 3, 1)
 
-
-
 	local selectDescriptorColLayout = {
-		Helper.standardTextHeight * 2, -- any kind of icon
-		Helper.standardTextHeight * 2, -- any kind of icon
+		Helper.standardTextHeight, -- any kind of icon
 		0, -- name
-		400 -- location
+		250,
+		200, -- station
+		200 -- location
 	}
 
 	local bookmarks = xxxLibrary.getBookmarks()
@@ -117,42 +116,42 @@ function menu.displayMenu()
 				local containerColorString, _ = xxxLibrary.getColorStringForComponent(container)
 				sStationName = containerColorString .. GetComponentData(container, "name")
 			end
-			sLocationName = sStationName .. nextLineAndIndent .. sLocationName
-
-
 
 			if typeIcon ~= "" and typeIcon ~= nil then
-				typeIcon = Helper.createIcon(typeIcon, false, bookmarkColor.r, bookmarkColor.g, bookmarkColor.b, bookmarkColor.a, 0, 0, Helper.standardTextHeight * 2, Helper.standardTextHeight * 2)
+				typeIcon = Helper.createIcon(typeIcon, false, bookmarkColor.r, bookmarkColor.g, bookmarkColor.b, bookmarkColor.a, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight)
 			else
 				typeIcon = ""
 			end
 
 			if ownerIcon ~= "" and ownerIcon ~= nil then
-				ownerIcon = Helper.createIcon(ownerIcon, false, bookmarkColor.r, bookmarkColor.g, bookmarkColor.b, bookmarkColor.a, 0, 0, Helper.standardTextHeight * 2, Helper.standardTextHeight * 2)
+				ownerIcon = Helper.createIcon(ownerIcon, false, bookmarkColor.r, bookmarkColor.g, bookmarkColor.b, bookmarkColor.a, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight)
 			else
 				ownerIcon = ""
 			end
 
 			-- local nameAddition = owner ~= "player" and (" [" .. ownerName .. "]") or "" -- disabled names become too long => ugly text breaks
 			local nameAddition = ""
-			local name = bookmarkName .. nameAddition .. nextLineAndIndent .. typeName
+			local name = bookmarkName
 
 			if typeString == "shiptrader" then
 				local buildmodule = GetComponentData(bookmark, "buildmodule")
 				if buildmodule then
 					local buildermacros = GetBuilderMacros(buildmodule)
 					if IsMacroClass(buildermacros[1].macro, "ship_xl") then
-						name = name .. " [" .. ReadText(1001, 48) .. "]"
+						typeName = typeName .. " [" .. ReadText(1001, 48) .. "]"
 					elseif IsMacroClass(buildermacros[1].macro, "ship_l") then
-						name = name .. " [" .. ReadText(1001, 49) .. "]"
+						typeName = typeName .. " [" .. ReadText(1001, 49) .. "]"
 					end
 				end
 			end
 
-			local fs1 = Helper.createFontString(bookmarkColorString .. name, false, "left", 255, 255, 255, 100, Helper.standardFont, Helper.standardFontSize, true, nil, nil, 2 * Helper.standardTextHeight)
-			local fs2 = Helper.createFontString(sLocationName, false, "left", 255, 255, 255, 100, Helper.standardFont, Helper.standardFontSize, true, nil, nil, 2 * Helper.standardTextHeight)
-
-			setup:addSimpleRow({ ownerIcon, typeIcon, fs1, fs2 }, { bookmark }, { 1, 1, 1, 1 }, false, Helper.defaultHeaderBackgroundColor)
+			setup:addSimpleRow({
+				ownerIcon,
+				bookmarkColorString .. name,
+				bookmarkColorString .. typeName,
+				sStationName,
+				sLocationName
+			}, { bookmark }, { 1, 1, 1, 1, 1 }, false, Helper.defaultHeaderBackgroundColor)
 		end
 	end
 
@@ -186,7 +185,9 @@ function menu.displayMenu()
 		end
 	end
 
-	Helper.setButtonScript(menu, nil, menu.buttontable, 1, 2, function() return menu.onCloseElement("back") end)
+	Helper.setButtonScript(menu, nil, menu.buttontable, 1, 2, function()
+		return menu.onCloseElement("back")
+	end)
 
 	-- clear descriptors again
 	Helper.releaseDescriptors()
@@ -213,7 +214,9 @@ function menu.onRowChanged(row, rowdata)
 		local active = GetComponentData(rowdata[1], "isremotecommable")
 		Helper.removeButtonScripts(menu, menu.buttontable, 1, 8)
 		SetCellContent(menu.buttontable, Helper.createButton(Helper.createButtonText(ReadText(1001, 3216), "center", Helper.standardFont, 11, 255, 255, 255, 100), nil, false, active, 0, 0, 150, 25, nil, Helper.createButtonHotkey("INPUT_STATE_DETAILMONITOR_X", true), nil, active and "" or ReadText(1026, 7001)), 1, 8)
-		Helper.setButtonScript(menu, nil, menu.buttontable, 1, 8, function() return menu.buttonComm(rowdata[1]) end)
+		Helper.setButtonScript(menu, nil, menu.buttontable, 1, 8, function()
+			return menu.buttonComm(rowdata[1])
+		end)
 	else
 		--- REM MB ---
 		Helper.removeButtonScripts(menu, menu.buttontable, 1, 4)
@@ -237,7 +240,5 @@ function menu.onCloseElement(dueToClose)
 		menu.cleanup()
 	end
 end
-
-
 
 init()

@@ -232,7 +232,7 @@ function overrideFuncs.addContainerRow(setup, component, iteration, subordinatew
 	nameColumnColSpan = nameColumnColSpan - 1
 
 	-- col2 - checkbox
-	local chkChecked = menu.selectedcontainers[tostring(component)] ~= nil
+	local chkChecked = menu.selectedcontainers ~= nil and menu.selectedcontainers[tostring(component)] ~= nil or false
 	local chkColor = subordinatewarning and menu.yellow or nil
 
 	local cansell = false
@@ -346,15 +346,16 @@ function overrideFuncs.addContainerRow(setup, component, iteration, subordinatew
 
 	if menu.mode ~= "sellship" then
 		-- col7 - info
-		if warning > 0 then
-			-- warning got higher priority
-			table.insert(columns, Helper.createIcon("workshop_error", false, warning == 2 and 255 or 192, warning == 2 and 0 or 192, 0, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
+		if creditWarning > 0 then
+			-- credit-warning got higher priority cuz it can be fixed fast
+			local color = creditWarning > 1 and Helper.statusRed or Helper.statusYellow
+			table.insert(columns, Helper.createIcon("xxx_credits", false, color.r, color.g, color.b, color.a, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
 			table.insert(columnSetup, 1)
 			nameColumnColSpan = nameColumnColSpan - 1
 			cargoColSpan = cargoColSpan - 1
-		elseif creditWarning > 0 then
-			local color = creditWarning > 1 and Helper.statusRed or Helper.statusYellow
-			table.insert(columns, Helper.createIcon("xxx_credits", false, color.r, color.g, color.b, color.a, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
+		elseif warning > 0 then
+			local color = warning > 1 and Helper.statusRed or Helper.statusYellow
+			table.insert(columns, Helper.createIcon("workshop_error", false, color.r, color.g, color.b, color.a, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight))
 			table.insert(columnSetup, 1)
 			nameColumnColSpan = nameColumnColSpan - 1
 			cargoColSpan = cargoColSpan - 1
@@ -427,7 +428,7 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 	local itemExpandCollapse = #array > 0 and Helper.createButton(Helper.createButtonText(menu.extendedcategories[name] and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight) or ""
 
 	-- 2: check box ###
-	local chkChecked = menu.selectedcontainers[name] ~= nil
+	local chkChecked = menu.selectedcontainers ~= nil and menu.selectedcontainers[name] ~= nil or false
 	local chkColor = (name == "stations") and menu.yellow or nil
 	chkColor = nil
 	local chkActive = (menu.mode ~= "selectobject") and ((#array > 0) or (menu.faction == "player")) or (name == "ships" and menu.faction == "player")
@@ -481,11 +482,10 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 			end
 			menu.subordinates[tostring(menu.playership)] = subordinates
 
-
 			-- albion skunk
 			setup:addSimpleRow({
 				#subordinates > 0 and Helper.createButton(Helper.createButtonText(menu.extendedcategories[tostring(menu.playership)] and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight) or "",
-				Helper.createCheckBox(menu.selectedcontainers[tostring(menu.playership)] ~= nil, false, nil, (menu.mode ~= "selectobject") and (#subordinates > 0), 2, 2, Helper.standardTextHeight - 4, Helper.standardTextHeight - 4, nil),
+				Helper.createCheckBox(menu.selectedcontainers ~= nil and menu.selectedcontainers[tostring(menu.playership)] ~= nil or false, false, nil, (menu.mode ~= "selectobject") and (#subordinates > 0), 2, 2, Helper.standardTextHeight - 4, Helper.standardTextHeight - 4, nil),
 				GetComponentData(menu.playership, "name")
 			}, menu.playership, { 1, 1, menu.selectColsCount - 2 }, false, Helper.defaultHeaderBackgroundColor)
 			AddKnownItem("shiptypes_s", GetComponentData(menu.playership, "macro"))

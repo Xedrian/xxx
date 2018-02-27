@@ -62,8 +62,7 @@ function override.onShowMenu()
 	setup:addHeaderRow({
 		ReadText(1001, 76),
 		ReadText(20180212, 1000),
-	}, nil, {2, 1 })
-
+	}, nil, { 2, 2 })
 
 	menu.crew = GetNPCs(menu.object)
 	if #menu.crew > 0 then
@@ -73,27 +72,29 @@ function override.onShowMenu()
 			if menu.isplayership and owner == "player" or owner == objectowner then
 				displayed = true
 
+				local combinedskill = GetComponentData(npc, "combinedskill")
 				setup:addSimpleRow({
 					Helper.createIcon(typeicon, false, 255, 255, 255, 100, 0, 0, Helper.standardTextHeight, Helper.standardTextHeight),
 					typename .. " " .. Helper.unlockInfo(menu.unlocked.operator_name, name),
-					xxxLibrary.createStarsText(xxxLibrary.getColorStringForCombinedSkill(GetComponentData(npc, "combinedskill")) .. "*")
+					xxxLibrary.createStarsText(xxxLibrary.getColorStringForCombinedSkill(combinedskill) .. "*"),
+					Helper.createFontString(combinedskill, false, "right")
 				}, npc)
 			end
 		end
 		if not displayed then
 			setup:addSimpleRow({
 				ReadText(1001, 4300)
-			}, nil, { 3 })
+			}, nil, { 4 })
 		end
 	else
 		setup:addSimpleRow({
 			ReadText(1001, 4300)
-		}, nil, { 2 })
+		}, nil, { 4 })
 	end
 
 	setup:addFillRows(16)
 
-	local selectdesc = setup:createCustomWidthTable({ Helper.standardTextHeight, 0, 50 }, false, false, true, 1, 0, 0, Helper.tableOffsety, 485, nil, menu.toprow, menu.selectrow)
+	local selectdesc = setup:createCustomWidthTable({ Helper.standardTextHeight, 0, 50, 50 }, false, false, true, 1, 0, 0, Helper.tableOffsety, 485, nil, menu.toprow, menu.selectrow)
 
 	-- button table
 	setup = Helper.createTableSetup(menu)
@@ -116,7 +117,9 @@ function override.onShowMenu()
 	-- set button scripts
 	Helper.setButtonScript(menu, nil, menu.infotable, 1, 1, menu.buttonShipEncyclopedia)
 
-	Helper.setButtonScript(menu, nil, menu.buttontable, 1, 2, function() return menu.onCloseElement("back") end)
+	Helper.setButtonScript(menu, nil, menu.buttontable, 1, 2, function()
+		return menu.onCloseElement("back")
+	end)
 	Helper.setButtonScript(menu, nil, menu.buttontable, 1, 8, menu.buttonComm)
 
 	-- clear descriptors again
@@ -127,7 +130,6 @@ function override.onRowChanged(row, rowdata)
 	menu.toprow = GetTopRow(menu.selecttable)
 	menu.selectrow = Helper.currentDefaultTableRow
 end
-
 
 local function init()
 	for _, existingMenu in ipairs(Menus) do
