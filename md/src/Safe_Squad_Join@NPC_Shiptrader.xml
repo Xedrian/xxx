@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<remove sel="/mdscript/cues/cue[@name='Base']/cues/cue[@name='BuildFinished']/actions/do_if[@value='not $upgrade? and not $component?']/do_if[@value='$ship.commander != player.primaryship']/set_object_commander"/>
+</diff>

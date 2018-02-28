@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<diff>
+	<add sel="//cue[@name='SectionHandler']/actions/do_elseif/add_to_player_squad" pos="after">
+		<add_player_choice text="{1002,2015}" tooltip="{1026,20007}" section="gJoinedSquad_Follow" position="top_left" />
+		<add_player_choice text="{1002,2051}" tooltip="{1026,20023}" section="gJoinedSquad_Hold" position="top_right" />
+		<add_player_choice_sub text="{1002,2052}" tooltip="{1026,20024}" section="gOrders_advancedflytome" position="left" comment="Fly to my Current Position" />
+		<do_if value="@player.primaryship.zone.issuperhighway">
+			<add_player_choice_sub text="{1002,2061}" tooltip="{1026,20025}" section="gOrders_advancedflytopos" position="bottom_left" comment="Fly to position" choiceparam="[0, 0, 'cluster', player.primaryship.cluster, null, null, 'selectposition', ['gOrders_advancedflytopos_posselected']]" />
+		</do_if>
+		<do_elseif value="@player.primaryship.zone.ishighway">
+			<add_player_choice_sub text="{1002,2061}" tooltip="{1026,20025}" section="gOrders_advancedflytopos" position="bottom_left" comment="Fly to position" choiceparam="[0, 0, 'sector', player.primaryship.sector, null, null, 'selectposition', ['gOrders_advancedflytopos_posselected']]" />
+		</do_elseif>
+		<do_else>
+			<add_player_choice_sub text="{1002,2061}" tooltip="{1026,20025}" section="gOrders_advancedflytopos" position="bottom_left" comment="Fly to position" choiceparam="[0, 0, 'zone', player.primaryship.zone, null, null, 'selectposition', ['gOrders_advancedflytopos_posselected']]" />
+		</do_else>
+		<!-- Attack options -->
+		<set_value name="$parking" exact="@event.object.$ship_parking" />
+		<set_value name="$selectable" exact="false" />
+		<set_value name="$tooltip" exact="{1026,20004}" comment="not possible" />
+		<do_if value="not $parking">
+			<do_if value="not (event.object.ship.isclass.[class.ship_l, class.ship_xl]) or event.object.ship.defencenpc">
+				<do_if value="event.object.ship.dps.all or event.object.ship.units.{unitcategory.defence}.count or event.object.ship.subordinates.count">
+					<set_value name="$tooltip" exact="{1026,20016}" comment="ship will attack" />
+					<set_value name="$selectable" exact="true" />
+				</do_if>
+				<do_else>
+					<set_value name="$tooltip" exact="{1026,20018}" comment="ship has no means of attack" />
+				</do_else>
+			</do_if>
+			<do_else>
+				<set_value name="$tooltip" exact="{1026,20017}" comment="capship has no defence officer" />
+			</do_else>
+		</do_if>
+		<add_player_choice_sub text="{1002,2040}" tooltip="$tooltip" section="gOrders_attack" position="right" comment="Attack ..." selectable="$selectable" />
+	</add>
+	<add sel="//cue[@name='OnAddToSquad']/actions">
+		<signal_objects object="event.object.container" param="'hold position'" />
+		<start_conversation actor="event.object.ship.pilot" conversation="gJoinedSquad" />
+	</add>
+	<remove sel="//cue[@name='SectionHandler']/actions/do_elseif/add_npc_line[@line='1010']" />
+</diff>

@@ -1,0 +1,9 @@
+Title: Safe Squad Join
+Description: This mod makes ships wait for orders upon joining your squad. There is also a prompt to decide further orders.
+Version: 1.05
+Author: camus
+Source: Steam
+
+--- Hint by Xedrian (xxx) ---
+we only want use use those "dont join squad" scripts, we dont want to start any conversation
+reason: we want to start the "Equipt with crew" - Dialog (not ready yet)
