@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<language>
+	<page id="800000" voice="no">
+		<!-- <t id="21">Stratos - S</t> -->
+		<t id="21">{20101,12703} {20106,3001} MK2</t>
+		<!-- <t id="22">Stratos - C</t> -->
+		<t id="22">{20101,12703} {20106,3101} MK2</t>
+		<!--<t id="23">Stratos - E</t>-->
+		<t id="23">{20101,12703} {20106,3201} MK2</t>
+		<!--<t id="24">Stratos - S+F</t>-->
+		<t id="24">{20101,12703} {20106,3401} MK2</t>
+		<!--<t id="25">Stratos - E+C</t>-->
+		<t id="25">{20101,12703} {20106,3501} MK2</t>
+		<!--<t id="26">Stratos - F</t>-->
+		<t id="26">{20101,12703} {20106,3301} MK2</t>
+
+		<!--Weapons-->
+		<t id="109">HIO/LG-Kanone</t>
+	</page>
+</language>

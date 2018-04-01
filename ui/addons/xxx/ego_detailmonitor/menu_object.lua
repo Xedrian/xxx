@@ -833,7 +833,10 @@ function override.createSectionEmployees(setup)
 		local icon
 		local color = Helper.statusYellow
 		if employeeflag or (menu.type == "station" and not hasmanager) then
-			icon = "workshop_icon"
+			icon = "workshop_error"
+			if menu.type == "station" and not hasmanager then
+				color = Helper.statusRed
+			end
 		else
 			icon = "xxx_credits"
 			if moneyflag > 1 then

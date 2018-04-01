@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+	<replace sel="//ware[@id='inv_kickstarter']/@tags">crafting inventory rare</replace>
+	<add sel='/wares/ware[@id="inv_kickstarter"]'>
+		<production time="10" amount="1" method="default" name="{20206,501}">
+			<primary>
+				<ware ware="inv_jumpdrivecomponents" amount="10"/>
+				<ware ware="inv_pesticide" amount="10"/>
+				<ware ware="inv_silicateminerals" amount="10"/>
+			</primary>
+		</production>
+	</add>
+</diff>

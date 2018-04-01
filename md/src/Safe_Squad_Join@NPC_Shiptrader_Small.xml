@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1" ?>
-<diff>
-	<remove sel='/mdscript/cues/cue[@name="Base"]/cues/cue[@name="SectionHandler"]/actions/do_elseif[@value="event.param == &apos;cSmallshiptrader_spawnships&apos;"]/do_if[@value="@$rawdocks.count"]/do_all[@exact="$amount"]/do_if[@value="$spawnedship.exists"]/set_object_commander'/>
-</diff>

@@ -20,6 +20,8 @@
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_buildcost.lua"/>
 		<file name="ui/addons/xxx/ego_detailmonitor/menu_buildermacros.lua"/>
 
+		<file name="ui/addons/xxx/ego_detailmonitor/menu_encyclopediaobject.lua"/>
+
 		<!-- xxx - new menues-->
 		<file name="ui/addons/xxx/ego_detailmonitor/xxx_menu_bookmarks.lua"/>
 

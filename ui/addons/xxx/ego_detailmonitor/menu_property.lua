@@ -451,7 +451,7 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 				header,
 				Helper.createFontString(ReadText(20180212, 1000), false, "center"),
 				Helper.createFontString(itemStorageCapacity, false, "right")
-			}, nil, { 1, 1, menu.selectColsCount - 5, 1, 2 }, false, Helper.defaultHeaderBackgroundColor)
+			}, nil, { 1, 1, menu.selectColsCount - 5, 1, 2 }, false)
 		else
 			setup:addSimpleRow({
 				itemExpandCollapse,
@@ -459,7 +459,7 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 				header,
 				Helper.createFontString(ReadText(20180212, 1000), false, "center"),
 				Helper.createFontString(itemStorageCapacity, false, "right")
-			}, nil, { 1, 1, menu.selectColsCount - 5, 1, 2 }, false, Helper.defaultHeaderBackgroundColor)
+			}, nil, { 1, 1, menu.selectColsCount - 5, 1, 2 }, false)
 		end
 	else
 		setup:addSimpleRow({ itemExpandCollapse, itemCheckbox, header }, nil, { 1, 1, menu.selectColsCount - 2 }, false, Helper.defaultHeaderBackgroundColor)
@@ -536,9 +536,10 @@ function overrideFuncs.createSection(setup, name, header, array, nonetext, addhe
 
 					local grpIsExpanded = menu.extendedcategories[grpIdentifier]
 					setup:addSimpleRow({
-						Helper.createButton(Helper.createButtonText(grpIsExpanded and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight, choosenColor),
+						Helper.createButton( Helper.createButtonText(grpIsExpanded and "-" or "+", "center", Helper.standardFont, Helper.standardFontSize, 255, 255, 255, 100), nil, false, true, 0, 0, 0, Helper.standardTextHeight, choosenColor),
+						"",
 						menu.sortedStationsByClusterAndSector[grpIdentifier].cluster .. " - " .. menu.sortedStationsByClusterAndSector[grpIdentifier].sector .. " (" .. (#menu.sortedStationsByClusterAndSector[grpIdentifier].subordinates) .. " " .. ReadText(1001, 4) .. ")"
-					}, nil, { 1, menu.selectColsCount - 1 }, false)
+					}, nil, { 1, 1, menu.selectColsCount - 2 }, false)
 					if grpIsExpanded then
 						for _, subordinate in ipairs(menu.sortedStationsByClusterAndSector[grpIdentifier].subordinates) do
 							menu.addContainerRow(setup, subordinate, 0, false)

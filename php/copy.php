@@ -9,8 +9,11 @@ function copyFiles($sourceDir, $targetDir)
 		if ($dh = opendir($sourceDir)) {
 			while (($fileName = readdir($dh)) !== false) {
 				if (is_file($file = $sourceDir . $fileName)) {
-					@unlink($targetDir . $fileName);
-					@copy($file, $targetDir . $fileName);
+					$info = pathinfo($file);
+					if ($info['extension'] == 'xml') {
+						@unlink($targetDir . $fileName);
+						@copy($file, $targetDir . $fileName);
+					}
 				}
 			}
 			closedir($dh);

@@ -76,7 +76,7 @@ function buildFilesFromDir($dir, $targetDir, $rootNode, $isPatchFile = false)
 	 * @var SimpleXMLElement $xmlNode
 	 */
 	foreach ($outFiles as $targetFileName => $aXmlContents) {
-		$dom = new DOMDocument('1.0', 'utf-8');
+		$dom = new DOMDocument('1.0', 'UTF-8');
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
 		$dom->loadXML('<' . $rootNode . '>' . implode('', $aXmlContents) . '</' . $rootNode . '>');

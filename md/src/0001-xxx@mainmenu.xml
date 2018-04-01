@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diff>
-	<add sel="/mdscript[@name='MainMenu']/cues/cue[@name='SectionHandler']/actions">
+	<add sel="//cue[@name='SectionHandler']/actions">
 		<do_elseif value="event.param == 'gMain_xxxBookmarks'">
 			<open_conversation_menu menu="xxxBookmarks" param="0" param2="1"/>
 			<add_conversation_view view="closeupdetailmonitor"/>
