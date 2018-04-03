@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mdscript name="BoardingTargetProtector" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="BoardingStarted" instantiate="true" namespace="this" version="100">
+			<conditions>
+				<event_boarding_triggered/>
+			</conditions>
+			<actions>
+				<set_value name="$target" exact="event.param2"/>
+				<set_value name="$flag" exact="false"/>
+			</actions>
+			<cues>
+				<cue name="ChangeBordeeFaction" instantiate="true" version="100">
+					<conditions>
+						<event_conversation_started conversation="BoardingSupport_ProtectPods_Started_Conversation"/>
+					</conditions>
+					<actions>
+						<debug_text text="'Setting boardee up for protection.'"/>
+						<set_object_min_hull object="$target" exact="1"/>
+						<set_value name="$flag" exact="true"/><!-- now its allowed to do cease fire magic-->
+						<debug_text text="'Bordee set up for protection.'"/>
+					</actions>
+				</cue>
+				<cue name="ProtectBoardee" instantiate="true" version="100">
+					<conditions>
+						<event_object_attacked object="$target"/>
+					</conditions>
+					<actions>
+						<do_if value="$flag == true and event.param != player.primaryship and event.param != @player.ship">
+							<cease_fire object="event.param"/>
+							<do_if value="event.param.defencenpc"><!--capships-->
+								<signal_objects object="event.param.defencenpc" param="'stop attack'"/>
+							</do_if>
+							<do_else><!-- fighters-->
+							</do_else>
+							<debug_text text="event.param + ' ceasing fire'"/>
+						</do_if>
+					</actions>
+				</cue>
+				<cue name="BoardingFailed" version="100">
+					<conditions>
+						<check_any>
+							<event_object_destroyed object="$target"/>
+							<event_conversation_started conversation="BoardingSupport_ProtectPods_AllDestroyed_Conversation"/>
+							<event_conversation_started conversation="BoardingResult_Failure_Conversation"/>
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="not $target.iswreck">
+							<set_object_min_hull object="$target" exact="0"/>
+						</do_if>
+						<cancel_cue cue="BoardingStarted"/>
+						<debug_text text="'Bordee reset.'"/>
+					</actions>
+				</cue>
+				<cue name="BoardingSuccess" version="100">
+					<conditions>
+						<event_conversation_started conversation="BoardingResult_Success_Conversation"/>
+					</conditions>
+					<actions>
+						<set_object_min_hull object="$target" exact="0"/>
+						<cancel_cue cue="BoardingStarted"/>
+						<debug_text text="'Bording successful.'"/>
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript> 

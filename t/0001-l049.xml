@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<language>
+  <!-- Source: CSP -->
+  <page id="800000" voice="no">
+    <t id="21">{20101,12703} {20106,3001} MK2</t>
+    <t id="22">{20101,12703} {20106,3101} MK2</t>
+    <t id="23">{20101,12703} {20106,3201} MK2</t>
+    <t id="24">{20101,12703} {20106,3401} MK2</t>
+    <t id="25">{20101,12703} {20106,3501} MK2</t>
+    <t id="26">{20101,12703} {20106,3301} MK2</t>
+    <t id="109">HIO/LG-Kanone</t>
+  </page>
+  <!-- Source: Repack_Construction_Vessel -->
+  <page id="30114" title="Upkeep Missions" descr="0" voice="no">
+    <t id="402">Acquire an Engineer(see:20208,701) for your station, $OBJECT$.</t>
+  </page>
+  <page id="900000" title="Repack Construction Vessel" descr="0" voice="no">
+    <t id="15101">Von Station l&#xF6;sen</t>
+  </page>
+  <!-- Source: Station_Production_Limiting -->
+  <page id="360003" title="StationProductionManager" descr="Texte f&#xFC;r Station Produktionsleiter ." voice="no">
+    <t id="1">Produktionsbegrenzung</t>
+    <t id="10">Zyklus</t>
+    <t id="20">Konfiguration</t>
+    <t id="30">Weltweit</t>
+    <t id="40">Debug-Level</t>
+    <t id="50">Aktiviere Debug-Einstellungen</t>
+    <t id="70">Schreiben Produktionsgrenzen zu</t>
+    <t id="90">Keine Begrenzung Satz</t>
+    <t id="100">Reduzieren Produktion von</t>
+  </page>
+  <!-- Source: xxx -->
+  <page id="20180212" title="" descr="" voice="no">
+    <t id="1000">Skill</t>
+    <t id="1001">Frachtkapazit&#xE4;t</t>
+    <t id="1002">fertiggestellt</t>
+    <t id="1003">Eintrag entfernen</t>
+  </page>
+</language>

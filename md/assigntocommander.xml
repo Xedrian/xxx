@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<diff>
+  <!-- Source: Galaxy_Station_Range -->
+  <replace sel="//do_if[@value='$bigship and ($Object.maxradarrange gt 30km)']">
+    <do_if value="$bigship and ($Object.maxradarrange gt 30km) and not ($entitytype == entitytype.architect)">
+      <set_value name="$maxrange" exact="$Object.cluster"/>
+    </do_if>
+  </replace>
+  <add sel="//library[@name='Start_Default_Script']/actions/set_value[@name='$entitytype']" pos="after">
+    <do_if value="$capship">
+      <set_value name="$subordinate.pilot.$config_autorefuel" exact="true"/>
+    </do_if>
+  </add>
+</diff>

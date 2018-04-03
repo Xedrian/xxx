@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<language>
+  <!-- Source: Station_Production_Limiting -->
+  <page id="360003" title="StationProductionManager" descr="Testi per Stazione direttore di produzione." voice="no">
+    <t id="1">Produzione Limitare</t>
+    <t id="10">Ciclo</t>
+    <t id="20">Configurazione</t>
+    <t id="30">Globale</t>
+    <t id="40">Livello di debug</t>
+    <t id="50">Attivare le impostazioni di debug</t>
+    <t id="70">Scrivi i limiti di produzione per</t>
+    <t id="90">Nessun limite impostato</t>
+    <t id="100">Ridurre la produzione per</t>
+  </page>
+</language>

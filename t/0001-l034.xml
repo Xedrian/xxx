@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<language>
+  <!-- Source: Station_Production_Limiting -->
+  <page id="360003" title="StationProductionManager" descr="Textos para la estaci&#xF3;n del director de producci&#xF3;n." voice="no">
+    <t id="1">La limitaci&#xF3;n de la producci&#xF3;n</t>
+    <t id="10">Ciclo</t>
+    <t id="20">Configuraci&#xF3;n</t>
+    <t id="30">Global</t>
+    <t id="40">Nivel de depuraci&#xF3;n</t>
+    <t id="50">Activar la configuraci&#xF3;n de depuraci&#xF3;n</t>
+    <t id="70">Escribe l&#xED;mites en la producci&#xF3;n a</t>
+    <t id="90">No se ha establecido l&#xED;mite</t>
+    <t id="100">Reducir la producci&#xF3;n en</t>
+  </page>
+</language>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<diff>
+  <!-- Source: Galaxy_Station_Range -->
+  <add sel="//attention/actions/do_all[1]/do_if[@value='$bigship and (this.station.maxradarrange gt 30km)']" pos="after">
+    <set_value name="$additional" exact="null"/>
+  </add>
+  <replace sel="//attention/actions/do_all[1]/do_if[@value='this.$config_subordinate_range?']">
+    <do_if value="this.$config_subordinate_range?">
+      <do_if value="this.$config_subordinate_range.isclass.galaxy and $maxrange.isclass.cluster">
+        <set_value name="$maxrange" exact="'ranged'"/>
+        <set_value name="$additional" exact="[0, 20, 0, 20]"/>
+      </do_if>
+      <do_elseif value="this.$config_subordinate_range.isclass.cluster and $maxrange.isclass.cluster">
+        <set_value name="$maxrange" exact="this.$config_subordinate_range"/>
+      </do_elseif>
+    </do_if>
+  </replace>
+  <replace sel="//attention/actions/do_all[1]/do_elseif[@value='$warelist.count gt 0']/start_script">
+    <start_script name="'trade.ship'" object="$subordinate.pilot">
+      <param name="warelist" value="$warelist"/>
+      <param name="range" value="$maxrange"/>
+      <param name="additionalparams" value="$additional"/>
+    </start_script>
+  </replace>
+</diff>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	This file is part of the X Rebirth ShowSkills mod.
+	The code was mostly copied from the NESA mod with 
+	permission of the author Mad_Joker.
+	
+	Thanks to w.evans for 3.0 update help
+	
+	Author: StormMagi
+  
+	Last Change: 3.0 Update
+	Version: V1.1
+	Date: 28th Nov 2013
+  
+	X Rebirth version: 1.17
+-->
+<mdscript name="ShowSkills" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<!--
+			Cue to reveal skills.
+		 -->
+		<cue name="SectionHandler_ShowSkills_RevealSkills" instantiate="false" namespace="this">
+			<conditions>
+				<check_all>
+					<event_conversation_started/>
+					<!-- We ignore opening of the main menu (which is a conversation with Yisha) -->
+					<check_value value="event.object" exact="player.copilot" negate="true"/>
+					<!-- Only specific NPC types have skills -->
+					<set_value name="$lSuitableTypes" exact="[entitytype.pilot, entitytype.commander, entitytype.manager, entitytype.engineer, entitytype.architect, entitytype.marine, entitytype.defencecontrol]"/>
+					<!-- some checks, mostly copied from Smalltalk.xml -->
+					<check_value value="event.object.page and (event.object.isspecialist or not event.object.iscontrolentity) and not event.object.skillsvisible" exact="true"/>
+					<check_value value="event.object.isspecialist or $lSuitableTypes.indexof.{event.object.type}" exact="true"/>
+				</check_all>
+			</conditions>
+			<actions>
+				<!-- finally, we can set the skills to be visible -->
+				<set_skills_visible entity="event.object" visible="true"/>
+				<show_help force="true" chance="0" custom="'Revealed skills of NPC %1 (%2), distance=%3, combinedskill=%4'.[event.object, event.object.knownname, event.object.distanceto.{player.entity}, event.object.combinedskill]"/>
+
+				<!-- we reset the cue to make sure we can trigger it again -->
+				<reset_cue cue="this"/>
+			</actions>
+		</cue>
+	</cues>
+</mdscript> 
